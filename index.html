@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hayvan Dostları - Öğren & Eğlen</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FFC23C">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@500;600;700&family=Noto+Sans+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF8EC; --cream-2:#FFEFD6;
+  --grass:#5FB86B; --grass-dark:#3E8E4C;
+  --sky:#5EC1DE; --sky-dark:#2E97BB;
+  --sun:#FFC23C; --coral:#FF8B72; --coral-dark:#E96A50;
+  --ink:#4A3626; --ink-soft:#8A6F58; --white:#FFFFFF;
+  --purple:#9B6FD1; --purple-dark:#7A4FB0;
+  --radius-lg:32px; --radius-md:22px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{min-height:100vh;font-family:'Quicksand',sans-serif;color:var(--ink);
+  background:radial-gradient(circle at 15% 8%,#FFE9BE 0%,transparent 45%),
+             radial-gradient(circle at 90% 85%,#CFEFD9 0%,transparent 40%),var(--cream);
+  overflow-x:hidden;display:flex;justify-content:center;
+  background-size:200% 200%;animation:gradientShift 14s ease infinite;}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+html[dir="rtl"] body{font-family:'Noto Sans Arabic','Quicksand',sans-serif;}
+.stage{width:100%;max-width:560px;min-height:100vh;position:relative;display:flex;flex-direction:column;}
+h1,h2,h3{font-family:'Baloo 2',sans-serif;margin:0;}
+html[dir="rtl"] h1,html[dir="rtl"] h2,html[dir="rtl"] h3{font-family:'Noto Sans Arabic',sans-serif;}
+.screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 20px;position:relative;z-index:1;min-height:100vh;animation:fadeIn .4s ease;}
+.screen.top{justify-content:flex-start;padding-top:20px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.big-btn{font-family:'Baloo 2',sans-serif;font-size:20px;font-weight:700;color:var(--white);
+  background:linear-gradient(180deg,var(--sun) 0%,#F2A928 100%);border:none;border-radius:999px;
+  padding:16px 32px;box-shadow:0 7px 0 #C8850F,0 12px 22px rgba(200,133,15,.25);cursor:pointer;
+  min-height:60px;min-width:180px;transition:transform .08s,box-shadow .08s;}
+.big-btn:active{transform:translateY(5px);box-shadow:0 2px 0 #C8850F,0 4px 10px rgba(200,133,15,.25);}
+.big-btn.green{background:linear-gradient(180deg,var(--grass) 0%,var(--grass-dark) 100%);box-shadow:0 7px 0 #2E6E3A,0 12px 22px rgba(46,110,58,.25);}
+.big-btn.green:active{box-shadow:0 2px 0 #2E6E3A;}
+.big-btn.blue{background:linear-gradient(180deg,var(--sky) 0%,var(--sky-dark) 100%);box-shadow:0 7px 0 #1E7690,0 12px 22px rgba(30,118,144,.25);}
+.big-btn.blue:active{box-shadow:0 2px 0 #1E7690;}
+.big-btn.purple{background:linear-gradient(180deg,var(--purple) 0%,var(--purple-dark) 100%);box-shadow:0 7px 0 #5E3A8A,0 12px 22px rgba(94,58,138,.25);}
+.big-btn.purple:active{box-shadow:0 2px 0 #5E3A8A;}
+.big-btn.small{font-size:16px;padding:12px 22px;min-height:48px;min-width:120px;}
+.big-btn:disabled{opacity:.45;cursor:not-allowed;}
+.ghost-btn{background:none;border:2px solid #E7D5B8;color:var(--ink-soft);font-family:'Baloo 2',sans-serif;
+  font-weight:700;border-radius:999px;padding:10px 20px;cursor:pointer;font-size:15px;min-height:44px;}
+.topnav{width:100%;max-width:480px;display:flex;align-items:center;justify-content:space-between;margin:0 auto 16px;}
+.topnav .title{font-size:18px;color:var(--ink);}
+.card{background:var(--white);border-radius:var(--radius-lg);padding:26px 22px;width:100%;max-width:480px;
+  margin:0 auto;box-shadow:0 14px 0 rgba(94,193,222,.15),0 18px 34px rgba(60,120,140,.1);border:3px solid #EFEAD8;
+  text-align:center;}
+.input-big{font-family:'Baloo 2',sans-serif;font-size:20px;font-weight:700;text-align:center;
+  border:3px solid #EFD9AF;border-radius:16px;padding:14px 16px;width:100%;max-width:280px;color:var(--ink);
+  background:var(--cream-2);margin:10px auto;display:block;}
+.badge{display:inline-block;background:var(--cream-2);border-radius:999px;padding:6px 14px;font-size:13px;
+  font-weight:700;color:var(--ink-soft);font-family:'Baloo 2',sans-serif;}
+.premium-badge{background:linear-gradient(90deg,#FFE9AE,#FFD37A);color:#8A5A00;}
+
+.lang-row{display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;}
+.lang-flag{font-size:22px;background:var(--cream-2);border-radius:12px;padding:6px 9px;cursor:pointer;border:2px solid transparent;}
+.lang-flag.sel{border-color:var(--grass);background:#DFF4E1;}
+.lang-row.compact{margin-bottom:10px;}
+.lang-row.compact .lang-flag{font-size:16px;padding:4px 6px;}
+
+.love-card{background:linear-gradient(165deg,var(--white) 0%,#FFF3E0 100%);border-radius:var(--radius-lg);
+  padding:36px 28px 30px;text-align:center;box-shadow:0 18px 0 rgba(233,178,120,.25),0 22px 40px rgba(120,80,30,.12);
+  max-width:440px;width:100%;border:3px solid #FFE3B0;}
+.love-card .critters{font-size:44px;margin-bottom:6px;letter-spacing:6px;}
+.love-card h1{font-size:28px;color:var(--coral-dark);margin-bottom:12px;line-height:1.25;}
+.love-card p{font-size:16px;line-height:1.6;color:var(--ink-soft);margin:0 0 24px;}
+
+.hub-header{width:100%;max-width:480px;margin:0 auto 10px;display:flex;justify-content:space-between;align-items:center;}
+.hub-title{font-size:24px;color:var(--coral-dark);}
+.mode-grid{display:flex;flex-direction:column;gap:14px;width:100%;max-width:480px;margin:0 auto;}
+.mode-tile{display:flex;align-items:center;gap:16px;background:var(--white);border-radius:var(--radius-md);
+  padding:18px 18px;border:3px solid #F0E6D0;box-shadow:0 6px 0 #EDE0C5;cursor:pointer;text-align:left;}
+html[dir="rtl"] .mode-tile{text-align:right;}
+.mode-tile:active{transform:translateY(3px);box-shadow:0 2px 0 #EDE0C5;}
+.mode-tile .ic{font-size:38px;flex-shrink:0;animation:bob 3s ease-in-out infinite;}
+.mode-tile:nth-child(2) .ic{animation-delay:.3s;}
+.mode-tile:nth-child(3) .ic{animation-delay:.6s;}
+.mode-tile:nth-child(4) .ic{animation-delay:.9s;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.mode-tile .tx h3{font-size:18px;color:var(--ink);}
+.mode-tile .tx p{margin:2px 0 0;font-size:13px;color:var(--ink-soft);}
+.premium-banner{width:100%;max-width:480px;margin:0 auto 16px;background:linear-gradient(120deg,#FFE9AE,#FFD37A);
+  border-radius:20px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border:2px solid #F0C158;}
+.premium-banner span{font-family:'Baloo 2',sans-serif;font-weight:700;color:#7A4E00;font-size:14px;}
+
+.section-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:480px;margin:0 auto;}
+.section-tile{border-radius:20px;padding:18px 10px;text-align:center;cursor:pointer;border:3px solid rgba(0,0,0,0.05);
+  box-shadow:0 6px 0 rgba(0,0,0,0.08);color:var(--white);animation:tilePop .4s ease backwards;}
+.section-tile:nth-child(1){animation-delay:.02s}.section-tile:nth-child(2){animation-delay:.06s}
+.section-tile:nth-child(3){animation-delay:.10s}.section-tile:nth-child(4){animation-delay:.14s}
+.section-tile:nth-child(5){animation-delay:.18s}.section-tile:nth-child(6){animation-delay:.22s}
+.section-tile:nth-child(7){animation-delay:.26s}.section-tile:nth-child(8){animation-delay:.30s}
+.section-tile:nth-child(9){animation-delay:.34s}.section-tile:nth-child(10){animation-delay:.38s}
+@keyframes tilePop{from{opacity:0;transform:scale(.7) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.section-tile:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,0.08);}
+.section-tile .ic{font-size:34px;display:block;margin-bottom:6px;}
+.section-tile .nm{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;}
+
+.topbar{width:100%;max-width:480px;display:flex;align-items:center;justify-content:center;gap:8px;margin:0 auto 18px;}
+.question-card{width:100%;max-width:480px;margin:0 auto;background:var(--white);border-radius:var(--radius-lg);
+  padding:28px 22px 24px;text-align:center;box-shadow:0 14px 0 rgba(94,193,222,.18),0 18px 34px rgba(60,120,140,.12);
+  border:3px solid #DFF3F8;}
+.animal-emoji{font-size:72px;line-height:1;margin-bottom:8px;animation:pop .4s ease;}
+@keyframes pop{0%{transform:scale(.4) rotate(-8deg);opacity:0}70%{transform:scale(1.08) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+.question-text{font-family:'Baloo 2',sans-serif;font-size:20px;font-weight:700;margin:4px 0 6px;line-height:1.3;}
+html[dir="rtl"] .question-text{font-family:'Noto Sans Arabic',sans-serif;}
+.speak-btn{display:inline-flex;align-items:center;gap:6px;background:var(--cream-2);border:none;border-radius:999px;
+  padding:9px 16px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:13px;color:var(--ink-soft);
+  margin:8px 0 18px;cursor:pointer;min-height:40px;}
+.answers{display:flex;flex-direction:column;gap:12px;}
+.answer-btn{font-family:'Baloo 2',sans-serif;font-size:18px;font-weight:600;color:var(--ink);background:var(--cream);
+  border:3px solid #F1E2C8;border-radius:var(--radius-md);padding:16px 18px;min-height:62px;display:flex;
+  align-items:center;gap:12px;cursor:pointer;text-align:left;box-shadow:0 5px 0 #EAD9B8;
+  transition:transform .08s,box-shadow .08s,background .2s,border-color .2s;}
+html[dir="rtl"] .answer-btn{text-align:right;font-family:'Noto Sans Arabic',sans-serif;}
+.answer-btn .oe{font-size:26px;flex-shrink:0;}
+.answer-btn:active:not(.locked){transform:translateY(4px);box-shadow:0 1px 0 #EAD9B8;}
+.answer-btn.correct{background:#DFF4E1;border-color:var(--grass);box-shadow:0 5px 0 var(--grass-dark);}
+.answer-btn.wrong{background:#FFE6E1;border-color:var(--coral);box-shadow:0 5px 0 var(--coral-dark);}
+.answer-btn.dim{opacity:.5;}
+.feedback{width:100%;max-width:480px;margin:14px auto 0;text-align:center;font-family:'Baloo 2',sans-serif;
+  font-size:19px;font-weight:700;min-height:28px;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;}
+.feedback.show{opacity:1;transform:translateY(0);}
+.feedback.good{color:var(--grass-dark);} .feedback.soft{color:var(--coral-dark);}
+
+.ad-card{background:linear-gradient(165deg,#FFFDF5 0%,#FFF3D6 100%);border-radius:var(--radius-lg);
+  padding:28px 22px;text-align:center;max-width:440px;width:100%;border:3px dashed #F0C158;
+  box-shadow:0 14px 0 rgba(240,193,88,.2),0 18px 34px rgba(160,120,20,.1);}
+.ad-chip{display:inline-block;background:#7A4E00;color:#fff;font-family:'Baloo 2',sans-serif;font-weight:700;
+  font-size:12px;padding:5px 14px;border-radius:999px;margin-bottom:14px;letter-spacing:.5px;}
+.ad-card .fact-emoji{font-size:56px;margin-bottom:10px;}
+.ad-card .fact-text{font-size:17px;line-height:1.55;color:var(--ink);margin-bottom:18px;}
+.ad-progress{width:100%;height:8px;background:#F0E0BC;border-radius:999px;overflow:hidden;margin-bottom:18px;}
+.ad-progress-bar{height:100%;background:var(--grass);width:0%;transition:width 1s linear;}
+
+.avatar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0;}
+.avatar-opt{font-size:32px;background:var(--cream-2);border-radius:16px;padding:10px;cursor:pointer;border:3px solid transparent;text-align:center;}
+.avatar-opt.sel{border-color:var(--grass);background:#DFF4E1;transform:scale(1.05);}
+.pin-dots{display:flex;gap:10px;justify-content:center;margin:14px 0;}
+.pin-dot{width:16px;height:16px;border-radius:50%;background:#EAD9B8;}
+.pin-dot.filled{background:var(--grass);}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:260px;margin:0 auto;}
+.keypad button{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:700;padding:16px 0;border-radius:16px;
+  border:none;background:var(--cream-2);color:var(--ink);cursor:pointer;}
+.keypad button:active{transform:scale(.95);background:#F0E0BC;}
+.big-avatar{font-size:60px;margin-bottom:6px;}
+.wiggle{display:inline-block;animation:wiggle 2.6s ease-in-out infinite;}
+@keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.bob{animation:bob 2.2s ease-in-out infinite;}
+.sparkle-ring{position:relative;}
+.sparkle-ring::before,.sparkle-ring::after{content:'✨';position:absolute;font-size:22px;animation:sparkle 1.8s ease-in-out infinite;}
+.sparkle-ring::before{top:-6px;left:-10px;}
+.sparkle-ring::after{bottom:-6px;right:-10px;animation-delay:.9s;}
+@keyframes sparkle{0%,100%{opacity:.2;transform:scale(.8) rotate(0deg)}50%{opacity:1;transform:scale(1.15) rotate(20deg)}}
+
+.badge-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:480px;margin:0 auto;}
+.badge-tile{background:var(--white);border-radius:18px;padding:16px 10px;text-align:center;border:3px solid #F0E6D0;box-shadow:0 5px 0 #EDE0C5;}
+.badge-tile.locked{opacity:.4;filter:grayscale(1);}
+.badge-tile .bic{font-size:34px;display:block;margin-bottom:6px;}
+.badge-tile .bnm{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;}
+
+.match-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:480px;margin:0 auto;}
+.match-card{aspect-ratio:1/1;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  font-size:30px;cursor:pointer;background:linear-gradient(160deg,var(--sky) 0%,var(--sky-dark) 100%);
+  box-shadow:0 5px 0 #1E7690;user-select:none;transition:transform .15s;}
+.match-card.flipped{background:var(--white);border:3px solid var(--grass);box-shadow:0 5px 0 #EAD9B8;}
+.match-card.matched{background:#DFF4E1;border:3px solid var(--grass);box-shadow:none;opacity:.75;}
+.match-card:active{transform:scale(.94);}
+.match-stats{display:flex;gap:14px;justify-content:center;margin-bottom:14px;}
+.match-stats .stat{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--ink-soft);font-size:14px;}
+.match-toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:var(--grass-dark);color:#fff;
+  font-family:'Baloo 2',sans-serif;font-weight:700;padding:10px 20px;border-radius:999px;z-index:60;
+  box-shadow:0 6px 14px rgba(0,0,0,.2);animation:toastIn .25s ease;}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,-10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+.timer-ring{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:800;color:var(--coral-dark);
+  background:var(--white);border:3px solid var(--coral);border-radius:999px;padding:8px 18px;display:inline-block;
+  margin-bottom:14px;}
+.timer-ring.low{color:#fff;background:var(--coral-dark);animation:pulse .6s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.vs-row{display:flex;justify-content:space-between;width:100%;max-width:480px;margin:0 auto 14px;gap:10px;}
+.vs-player{flex:1;background:var(--white);border-radius:16px;padding:10px 12px;text-align:center;border:2px solid #EFEAD8;}
+.vs-player .nm{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;color:var(--ink-soft);}
+.vs-player .sc{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:20px;color:var(--grass-dark);}
+.handoff-card{background:linear-gradient(165deg,var(--white) 0%,#E9F3FF 100%);border-radius:var(--radius-lg);
+  padding:34px 24px;text-align:center;max-width:420px;width:100%;border:3px solid #CFE6FA;}
+.handoff-card .ic{font-size:54px;margin-bottom:10px;}
+.room-code{font-family:'Baloo 2',sans-serif;font-size:36px;font-weight:800;letter-spacing:8px;color:var(--purple-dark);
+  background:var(--cream-2);border-radius:16px;padding:14px 10px;margin:14px 0;}
+
+.end-card{background:linear-gradient(165deg,var(--white) 0%,#EAF8EC 100%);border-radius:var(--radius-lg);
+  padding:34px 24px 28px;text-align:center;max-width:440px;width:100%;box-shadow:0 18px 0 rgba(95,184,107,.2),
+  0 22px 40px rgba(60,120,60,.12);border:3px solid #DDF0DE;}
+.end-card .big-emoji{font-size:60px;margin-bottom:8px;}
+.end-card h2{font-size:24px;color:var(--grass-dark);margin-bottom:8px;}
+.score-line{font-size:18px;color:var(--ink-soft);margin-bottom:16px;}
+.score-line b{color:var(--coral-dark);font-size:22px;}
+.end-card .love-msg{font-size:15px;line-height:1.6;color:var(--ink-soft);background:var(--cream-2);border-radius:18px;
+  padding:14px 16px;margin-bottom:22px;}
+.btn-stack{display:flex;flex-direction:column;gap:10px;align-items:center;}
+
+.confetti-piece{position:fixed;top:-40px;font-size:24px;z-index:80;pointer-events:none;animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:.2;}}
+.footer-trail{position:fixed;bottom:0;left:0;right:0;height:34px;
+  background-image:radial-gradient(circle,rgba(95,184,107,.16) 10px,transparent 11px);
+  background-size:46px 34px;background-position:0 10px;pointer-events:none;z-index:0;}
+#bgFx{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.bg-float{position:absolute;bottom:-60px;font-size:28px;opacity:.22;animation:floatUp linear infinite;}
+@keyframes floatUp{0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:0;}10%{opacity:.25;}90%{opacity:.2;}100%{transform:translateY(-115vh) translateX(30px) rotate(25deg);opacity:0;}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important;}}
+</style>
+</head>
+<body>
+<div class="footer-trail"></div>
+<div class="stage" id="stage"></div>
+
+<script>
+/* ============================================================
+   LANGUAGE / i18n CORE
+============================================================ */
+const LANGS = ['tr','en','de','nl','ar'];
+const LANG_META = {
+  tr:{flag:'🇹🇷',name:'Türkçe',dir:'ltr',speech:'tr-TR'},
+  en:{flag:'🇬🇧',name:'English',dir:'ltr',speech:'en-US'},
+  de:{flag:'🇩🇪',name:'Deutsch',dir:'ltr',speech:'de-DE'},
+  nl:{flag:'🇳🇱',name:'Nederlands',dir:'ltr',speech:'nl-NL'},
+  ar:{flag:'🇸🇦',name:'العربية',dir:'rtl',speech:'ar-SA'}
+};
+let currentLang = 'tr';
+try{ const saved = localStorage.getItem('hd_lang'); if(saved && LANGS.includes(saved)) currentLang = saved; }catch(e){}
+
+function setLang(l){
+  currentLang = l;
+  try{ localStorage.setItem('hd_lang', l); }catch(e){}
+  document.documentElement.lang = l;
+  document.documentElement.dir = LANG_META[l].dir;
+}
+function t(key, vars){
+  let s = (STRINGS[key] && STRINGS[key][currentLang]) || (STRINGS[key] && STRINGS[key].en) || key;
+  if(vars){ Object.keys(vars).forEach(k=>{ s = s.split('{'+k+'}').join(vars[k]); }); }
+  return s;
+}
+function langRow(compact){
+  return `<div class="lang-row ${compact?'compact':''}">${LANGS.map(l=>{
+    const locked = !FREE_LANGS.includes(l) && !store.premium;
+    return `<span class="lang-flag ${l===currentLang?'sel':''}" data-lang="${l}">${LANG_META[l].flag}${locked?'🔒':''}</span>`;
+  }).join('')}</div>`;
+}
+function wireLangRow(onChange){
+  document.querySelectorAll('.lang-flag').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const l = el.dataset.lang;
+      const locked = !FREE_LANGS.includes(l) && !store.premium;
+      if(locked){ renderPremium(onChange); return; }
+      setLang(l); onChange();
+    });
+  });
+}
+
+const STRINGS = {
+  appTitle:{tr:'Hayvan Dostları',en:'Animal Friends',de:'Tierfreunde',nl:'Dierenvriendjes',ar:'أصدقاء الحيوانات'},
+  introText:{tr:'Sevgili küçük dost,<br>her hayvan bizim gibi sevgiye, şefkate ve saygıya layıktır.<br>Öğrendikçe seveceksin, sevdikçe öğreneceksin!',
+    en:'Dear little friend,<br>every animal deserves love, kindness and respect, just like us.<br>The more you learn, the more you\'ll love — and the more you love, the more you\'ll learn!',
+    de:'Liebe kleine Freundin, lieber kleiner Freund,<br>jedes Tier verdient Liebe, Freundlichkeit und Respekt, genau wie wir.<br>Je mehr du lernst, desto mehr wirst du lieben!',
+    nl:'Beste kleine vriend(in),<br>elk dier verdient liefde, vriendelijkheid en respect, net als wij.<br>Hoe meer je leert, hoe meer je zult houden van dieren!',
+    ar:'عزيزي الصديق الصغير،<br>كل حيوان يستحق الحب واللطف والاحترام، تمامًا مثلنا.<br>كلما تعلمت أكثر، أحببت أكثر!'},
+  startBtn:{tr:'Hadi Başlayalım! 🐾',en:'Let\'s Begin! 🐾',de:'Los geht\'s! 🐾',nl:'Laten we beginnen! 🐾',ar:'هيا نبدأ! 🐾'},
+  introSpeak:{tr:'Sevgili küçük dost, hadi birlikte öğrenelim ve eğlenelim!',en:'Dear little friend, let\'s learn and have fun together!',de:'Liebe kleine Freundin, lass uns zusammen lernen und Spaß haben!',nl:'Beste kleine vriend, laten we samen leren en plezier maken!',ar:'عزيزي الصديق الصغير، هيا نتعلم ونستمتع معًا!'},
+
+  regTitle:{tr:'Kendini Tanıt!',en:'Introduce Yourself!',de:'Stell dich vor!',nl:'Stel jezelf voor!',ar:'عرّف بنفسك!'},
+  regSub:{tr:'Bir avatar seç ve adını yaz',en:'Pick an avatar and type your name',de:'Wähle einen Avatar und schreibe deinen Namen',nl:'Kies een avatar en typ je naam',ar:'اختر صورة رمزية واكتب اسمك'},
+  regNamePh:{tr:'Adın',en:'Your name',de:'Dein Name',nl:'Je naam',ar:'اسمك'},
+  regPinLabel:{tr:'🔒 4 haneli gizli kodunu seç',en:'🔒 Choose a 4-digit secret code',de:'🔒 Wähle einen 4-stelligen Geheimcode',nl:'🔒 Kies een 4-cijferige geheime code',ar:'🔒 اختر رمزًا سريًا من 4 أرقام'},
+  regNote:{tr:'Bu, cihazında saklanan basit bir profildir — gerçek bir hesap güvenliği sistemi değildir.',
+    en:'This is a simple profile stored on your device — not a real account security system.',
+    de:'Dies ist ein einfaches Profil auf deinem Gerät — kein echtes Kontosicherheitssystem.',
+    nl:'Dit is een eenvoudig profiel op je apparaat — geen echt accountbeveiligingssysteem.',
+    ar:'هذا ملف تعريف بسيط محفوظ على جهازك — وليس نظام أمان حساب حقيقي.'},
+  regBtn:{tr:'Hesabımı Oluştur 🎉',en:'Create My Account 🎉',de:'Konto erstellen 🎉',nl:'Account aanmaken 🎉',ar:'إنشاء حسابي 🎉'},
+  regErrName:{tr:'⬆️ Lütfen önce adını yaz.',en:'⬆️ Please type your name first.',de:'⬆️ Bitte gib zuerst deinen Namen ein.',nl:'⬆️ Typ eerst je naam.',ar:'⬆️ الرجاء كتابة اسمك أولاً.'},
+  regErrPin:{tr:'⬆️ Lütfen 4 haneli gizli kodunu tuşla.',en:'⬆️ Please enter your 4-digit code.',de:'⬆️ Bitte gib deinen 4-stelligen Code ein.',nl:'⬆️ Voer je 4-cijferige code in.',ar:'⬆️ الرجاء إدخال الرمز المكون من 4 أرقام.'},
+  loginHello:{tr:'Merhaba, {name}!',en:'Hello, {name}!',de:'Hallo, {name}!',nl:'Hallo, {name}!',ar:'مرحبًا، {name}!'},
+  loginSub:{tr:'Gizli kodunu gir',en:'Enter your secret code',de:'Gib deinen Geheimcode ein',nl:'Voer je geheime code in',ar:'أدخل رمزك السري'},
+  loginWrong:{tr:'Kod yanlış, tekrar dene.',en:'Wrong code, try again.',de:'Falscher Code, versuch es erneut.',nl:'Verkeerde code, probeer opnieuw.',ar:'الرمز خاطئ، حاول مرة أخرى.'},
+  switchUser:{tr:'Farklı bir profil oluştur',en:'Create a different profile',de:'Ein anderes Profil erstellen',nl:'Maak een ander profiel',ar:'إنشاء ملف تعريف مختلف'},
+
+  welcomeTitleNew:{tr:'Vay canına, {name}! 🎉',en:'Wow, {name}! 🎉',de:'Wow, {name}! 🎉',nl:'Wow, {name}! 🎉',ar:'يا للروعة، {name}! 🎉'},
+  welcomeSubNew:{tr:'Senin için hazırladığımız bu rengarenk, sesli ve sevgi dolu dünyaya hoş geldin!',
+    en:'Welcome to this colorful, talking, love-filled world we made just for you!',
+    de:'Willkommen in dieser bunten, sprechenden, liebevollen Welt, die wir für dich gemacht haben!',
+    nl:'Welkom in deze kleurrijke, pratende, liefdevolle wereld die we voor jou hebben gemaakt!',
+    ar:'مرحبًا بك في هذا العالم الملون الناطق المليء بالحب الذي صنعناه لك!'},
+  welcomeSubBack:{tr:'Tekrar burada olmana çok sevindik!',en:'So happy to see you again!',de:'Wir freuen uns, dich wiederzusehen!',nl:'Wat fijn dat je er weer bent!',ar:'سعداء جدًا برؤيتك مرة أخرى!'},
+  welcomeSpeakNew:{tr:'Vay canına {name}! Ne güzel bir tema hazırladık senin için!',en:'Wow {name}! We made such a beautiful world for you!',de:'Wow {name}! Wir haben eine wunderschöne Welt für dich gemacht!',nl:'Wow {name}! We hebben zo\'n mooie wereld voor je gemaakt!',ar:'يا للروعة يا {name}! لقد صنعنا لك عالمًا جميلًا جدًا!'},
+  welcomeSpeakBack:{tr:'Tekrar hoş geldin {name}!',en:'Welcome back {name}!',de:'Willkommen zurück {name}!',nl:'Welkom terug {name}!',ar:'مرحبًا بعودتك يا {name}!'},
+  enterAdventure:{tr:'Maceraya Başla! 🐾',en:'Start the Adventure! 🐾',de:'Abenteuer starten! 🐾',nl:'Start het avontuur! 🐾',ar:'ابدأ المغامرة! 🐾'},
+
+  hubHello:{tr:'Merhaba',en:'Hello',de:'Hallo',nl:'Hallo',ar:'مرحبًا'},
+  premiumOn:{tr:'👑 Premium',en:'👑 Premium',de:'👑 Premium',nl:'👑 Premium',ar:'👑 مميز'},
+  premiumOff:{tr:'🆓 Ücretsiz',en:'🆓 Free',de:'🆓 Kostenlos',nl:'🆓 Gratis',ar:'🆓 مجاني'},
+  premiumBannerText:{tr:'👑 Reklamsız oynamak ister misin?',en:'👑 Want to play without ads?',de:'👑 Ohne Werbung spielen?',nl:'👑 Zonder advertenties spelen?',ar:'👑 هل تريد اللعب بدون إعلانات؟'},
+  premiumBtn:{tr:'Premium',en:'Premium',de:'Premium',nl:'Premium',ar:'مميز'},
+  tileSectionsTitle:{tr:'Bölümler',en:'Sections',de:'Bereiche',nl:'Onderdelen',ar:'الأقسام'},
+  tileSectionsDesc:{tr:'10 farklı konuda sorular: hayvanlar, gezegenler, meslekler ve daha fazlası',
+    en:'Questions on 10 topics: animals, planets, jobs and more',
+    de:'Fragen zu 10 Themen: Tiere, Planeten, Berufe und mehr',
+    nl:'Vragen over 10 onderwerpen: dieren, planeten, beroepen en meer',
+    ar:'أسئلة في 10 مواضيع: الحيوانات، الكواكب، المهن والمزيد'},
+  tileMatchTitle:{tr:'Eşleştirme Oyunu',en:'Matching Game',de:'Memory-Spiel',nl:'Geheugenspel',ar:'لعبة المطابقة'},
+  tileMatchDesc:{tr:'Kartları çevir, aynı çiftleri bul!',en:'Flip cards and find matching pairs!',de:'Karten umdrehen und Paare finden!',nl:'Draai kaarten om en vind paren!',ar:'اقلب البطاقات وابحث عن الأزواج المتطابقة!'},
+  tileCompTitle:{tr:'Yarışma (2 Kişilik)',en:'Competition (2 Players)',de:'Wettkampf (2 Spieler)',nl:'Wedstrijd (2 spelers)',ar:'مسابقة (لاعبان)'},
+  tileCompDesc:{tr:'Süreli, tüm konulardan karışık sorularla arkadaşınla yarış',en:'Timed race with mixed questions from all topics',de:'Zeitrennen mit gemischten Fragen aus allen Themen',nl:'Race tegen de klok met gemengde vragen',ar:'سباق محدد بوقت بأسئلة مختلطة من جميع المواضيع'},
+  tileBadgesTitle:{tr:'Rozetlerim',en:'My Badges',de:'Meine Abzeichen',nl:'Mijn badges',ar:'أوسمتي'},
+  tileBadgesDesc:{tr:'{n} / {m} rozet kazandın',en:'{n} / {m} badges earned',de:'{n} / {m} Abzeichen erhalten',nl:'{n} / {m} badges verdiend',ar:'{n} / {m} وسام مكتسب'},
+
+  premiumScreenTitle:{tr:'Premium Paket',en:'Premium Package',de:'Premium-Paket',nl:'Premiumpakket',ar:'الباقة المميزة'},
+  premiumScreenBody:{tr:'Premium ile:<br>🌐 Tüm 5 dilin kilidi açılır (İngilizce, Almanca, Hollandaca, Arapça)<br>📚 Tüm 10 bölüme erişim<br>🏆 2 Kişilik Yarışma modu<br>🧩 Eşleştirme oyununda daha zorlu 8 çiftli tahtalar',
+    en:'With Premium:<br>🌐 All 5 languages unlocked (English, German, Dutch, Arabic)<br>📚 Access to all 10 sections<br>🏆 2-Player Competition mode<br>🧩 Harder 8-pair matching boards',
+    de:'Mit Premium:<br>🌐 Alle 5 Sprachen freigeschaltet<br>📚 Zugriff auf alle 10 Bereiche<br>🏆 Wettkampf für 2 Spieler<br>🧩 Schwierigere 8-Paar-Memory-Tafeln',
+    nl:'Met Premium:<br>🌐 Alle 5 talen ontgrendeld<br>📚 Toegang tot alle 10 onderdelen<br>🏆 Wedstrijdmodus voor 2 spelers<br>🧩 Moeilijkere borden met 8 paren',
+    ar:'مع النسخة المميزة:<br>🌐 فتح جميع اللغات الخمس<br>📚 الوصول لجميع الأقسام العشرة<br>🏆 وضع مسابقة للاعبين<br>🧩 ألواح مطابقة أصعب بـ 8 أزواج'},
+  premiumScreenNote:{tr:'Ücretsiz sürümde Türkçe/İngilizce ve Hayvanlar, Renkler, Sayılar bölümleri açıktır.',
+    en:'The free version includes Turkish/English and the Animals, Colors, and Numbers sections.',
+    de:'Die kostenlose Version enthält Türkisch/Englisch sowie die Bereiche Tiere, Farben und Zahlen.',
+    nl:'De gratis versie bevat Turks/Engels en de onderdelen Dieren, Kleuren en Getallen.',
+    ar:'يتضمن الإصدار المجاني التركية/الإنجليزية وأقسام الحيوانات والألوان والأرقام.'},
+  premiumOnBtn:{tr:'Premium Aktif ✅ (Kapat)',en:'Premium Active ✅ (Turn off)',de:'Premium aktiv ✅ (Ausschalten)',nl:'Premium actief ✅ (Uitzetten)',ar:'مميز نشط ✅ (إيقاف)'},
+  premiumOffBtn:{tr:'👑 Premium\'a Geç',en:'👑 Upgrade to Premium',de:'👑 Premium holen',nl:'👑 Upgrade naar Premium',ar:'👑 الترقية إلى المميز'},
+
+  gateTitle:{tr:'👨‍👩‍👧 Bu Bölüm Büyükler İçin',en:'👨‍👩‍👧 This Part Is for Grown-Ups',de:'👨‍👩‍👧 Dieser Teil ist für Erwachsene',nl:'👨‍👩‍👧 Dit gedeelte is voor volwassenen',ar:'👨‍👩‍👧 هذا الجزء للكبار'},
+  gateBody:{tr:'Devam etmeden önce şu soruyu çöz:',en:'Please solve this before continuing:',de:'Bitte löse das, bevor du weitermachst:',nl:'Los dit eerst op voordat je verdergaat:',ar:'الرجاء حل هذا قبل المتابعة:'},
+  gateWrong:{tr:'Bu senin için değil 😊 Bir yetişkinden yardım iste.',en:'This part isn\'t for you 😊 Ask a grown-up for help.',de:'Das ist nichts für dich 😊 Bitte einen Erwachsenen um Hilfe.',nl:'Dit is niets voor jou 😊 Vraag een volwassene om hulp.',ar:'هذا ليس لك 😊 اطلب المساعدة من أحد الكبار.'},
+  gateCancel:{tr:'Vazgeç',en:'Cancel',de:'Abbrechen',nl:'Annuleren',ar:'إلغاء'},
+
+  sectionPickTitle:{tr:'📚 Bir Bölüm Seç',en:'📚 Pick a Section',de:'📚 Wähle einen Bereich',nl:'📚 Kies een onderdeel',ar:'📚 اختر قسمًا'},
+  matchPickTitle:{tr:'🧩 Eşleştirme İçin Bir Konu Seç',en:'🧩 Pick a Topic to Match',de:'🧩 Wähle ein Thema zum Zuordnen',nl:'🧩 Kies een onderwerp om te matchen',ar:'🧩 اختر موضوعًا للمطابقة'},
+  speakAgain:{tr:'🔊 Tekrar Dinle',en:'🔊 Listen Again',de:'🔊 Nochmal hören',nl:'🔊 Opnieuw luisteren',ar:'🔊 استمع مرة أخرى'},
+
+  adChip:{tr:'MOLA ZAMANI 🎪',en:'BREAK TIME 🎪',de:'PAUSE 🎪',nl:'PAUZE 🎪',ar:'وقت الاستراحة 🎪'},
+  adKnow:{tr:'Biliyor muydun?',en:'Did you know?',de:'Wusstest du schon?',nl:'Wist je dat?',ar:'هل تعلم؟'},
+  adContinueGo:{tr:'Devam Et ▶',en:'Continue ▶',de:'Weiter ▶',nl:'Doorgaan ▶',ar:'متابعة ▶'},
+  adContinueCd:{tr:'Devam Et ({s}) ⏳',en:'Continue ({s}) ⏳',de:'Weiter ({s}) ⏳',nl:'Doorgaan ({s}) ⏳',ar:'متابعة ({s}) ⏳'},
+  adPremiumBtn:{tr:'👑 Premium\'a Geç, Reklamları Kaldır',en:'👑 Go Premium, Remove Ads',de:'👑 Premium holen, Werbung entfernen',nl:'👑 Ga Premium, verwijder advertenties',ar:'👑 اشترك مميز، أزل الإعلانات'},
+
+  matchMoves:{tr:'🔁 Hamle:',en:'🔁 Moves:',de:'🔁 Züge:',nl:'🔁 Zetten:',ar:'🔁 محاولات:'},
+  matchMatched:{tr:'💚 Eşleşen:',en:'💚 Matched:',de:'💚 Gefunden:',nl:'💚 Gevonden:',ar:'💚 متطابق:'},
+  matchToast:{tr:'{emoji} {name} eşleşti!',en:'{emoji} {name} matched!',de:'{emoji} {name} gefunden!',nl:'{emoji} {name} gevonden!',ar:'{emoji} {name} تطابقت!'},
+  matchEndTitle:{tr:'Tüm Çiftleri Buldun!',en:'You Found All Pairs!',de:'Du hast alle Paare gefunden!',nl:'Je hebt alle paren gevonden!',ar:'لقد وجدت كل الأزواج!'},
+  matchEndMoves:{tr:'Toplam hamle:',en:'Total moves:',de:'Züge insgesamt:',nl:'Totaal aantal zetten:',ar:'إجمالي المحاولات:'},
+  matchEndMsg:{tr:'Harika bir hafıza! Öğrendikçe daha da güçleniyorsun. 💚',en:'Amazing memory! You get stronger the more you learn. 💚',de:'Tolles Gedächtnis! Du wirst mit jedem Lernen stärker. 💚',nl:'Geweldig geheugen! Je wordt sterker naarmate je leert. 💚',ar:'ذاكرة رائعة! تصبح أقوى كلما تعلمت أكثر. 💚'},
+  playAgain:{tr:'Tekrar Oyna 🔁',en:'Play Again 🔁',de:'Nochmal spielen 🔁',nl:'Opnieuw spelen 🔁',ar:'العب مرة أخرى 🔁'},
+  toMainMenu:{tr:'Ana Menü',en:'Main Menu',de:'Hauptmenü',nl:'Hoofdmenu',ar:'القائمة الرئيسية'},
+
+  compTitle:{tr:'🏆 2 Kişilik Yarışma',en:'🏆 2-Player Competition',de:'🏆 Wettkampf für 2',nl:'🏆 Wedstrijd voor 2',ar:'🏆 مسابقة لاعبين'},
+  compLocalTitle:{tr:'Aynı Cihazdan',en:'Same Device',de:'Gleiches Gerät',nl:'Zelfde apparaat',ar:'نفس الجهاز'},
+  compLocalDesc:{tr:'Sırayla oynayın, cihazı birbirinize verin',en:'Take turns, pass the device to each other',de:'Abwechselnd spielen, Gerät weitergeben',nl:'Om de beurt spelen, geef het apparaat door',ar:'العبوا بالتناوب، مرروا الجهاز لبعضكما'},
+  compOnlineTitle:{tr:'Uzaktan (Çevrimiçi)',en:'Remote (Online)',de:'Fern (Online)',nl:'Op afstand (Online)',ar:'عن بعد (أونلاين)'},
+  compOnlineDescOn:{tr:'Bir kod oluştur, arkadaşınla paylaş',en:'Create a code, share it with a friend',de:'Erstelle einen Code, teile ihn mit einem Freund',nl:'Maak een code, deel deze met een vriend',ar:'أنشئ رمزًا وشاركه مع صديق'},
+  compOnlineDescOff:{tr:'Bu hesapta şu an kullanılamıyor',en:'Not available on this account right now',de:'Auf diesem Konto derzeit nicht verfügbar',nl:'Momenteel niet beschikbaar op dit account',ar:'غير متاح حاليًا في هذا الحساب'},
+  compNote:{tr:'Her oyuncuya {t} saniye ve karışık genel sorular! Süre biterken reklam izleyerek +15sn kazanabilirsin.',
+    en:'Each player gets {t} seconds and mixed general questions! Watch an ad for +15s more time.',
+    de:'Jeder Spieler hat {t} Sekunden und gemischte Fragen! Schau eine Werbung für +15s mehr Zeit.',
+    nl:'Elke speler krijgt {t} seconden en gemengde vragen! Bekijk een advertentie voor +15s extra tijd.',
+    ar:'يحصل كل لاعب على {t} ثانية وأسئلة عامة مختلطة! شاهد إعلانًا للحصول على 15 ثانية إضافية.'},
+  p1NamePh:{tr:'1. Oyuncunun Adı',en:'Player 1 Name',de:'Name Spieler 1',nl:'Naam speler 1',ar:'اسم اللاعب 1'},
+  p2NamePh:{tr:'2. Oyuncunun Adı',en:'Player 2 Name',de:'Name Spieler 2',nl:'Naam speler 2',ar:'اسم اللاعب 2'},
+  beginBtn:{tr:'Başla 🚀',en:'Start 🚀',de:'Start 🚀',nl:'Start 🚀',ar:'ابدأ 🚀'},
+  handoffTitle:{tr:'Sırada: {name}',en:'Up next: {name}',de:'Als Nächstes: {name}',nl:'Nu aan de beurt: {name}',ar:'الدور على: {name}'},
+  handoffBody:{tr:'Cihazı {name}\'e ver. Hazır olunca dokun, {t} saniyen başlasın!',
+    en:'Pass the device to {name}. Tap when ready to start your {t} seconds!',
+    de:'Gib das Gerät an {name}. Tippe, wenn du bereit bist für deine {t} Sekunden!',
+    nl:'Geef het apparaat aan {name}. Tik als je klaar bent voor jouw {t} seconden!',
+    ar:'مرر الجهاز إلى {name}. اضغط عندما تكون جاهزًا لبدء {t} ثانية!'},
+  readyBtn:{tr:'Hazırım! ▶',en:'Ready! ▶',de:'Bereit! ▶',nl:'Klaar! ▶',ar:'جاهز! ▶'},
+  watchAdBtn:{tr:'📺 Reklam İzle (+15sn)',en:'📺 Watch Ad (+15s)',de:'📺 Werbung ansehen (+15s)',nl:'📺 Advertentie bekijken (+15s)',ar:'📺 شاهد إعلانًا (+15 ثانية)'},
+  compTie:{tr:'Berabere! İkiniz de harikasınız! 🤝',en:'It\'s a tie! You\'re both amazing! 🤝',de:'Unentschieden! Ihr seid beide großartig! 🤝',nl:'Gelijkspel! Jullie zijn allebei geweldig! 🤝',ar:'تعادل! كلاكما رائع! 🤝'},
+  compLead:{tr:'{name} bu tur önde! Ama ikiniz de çok şey öğrendiniz! 🎉',en:'{name} is ahead this round! But you both learned so much! 🎉',de:'{name} führt in dieser Runde! Aber ihr habt beide viel gelernt! 🎉',nl:'{name} staat voor in deze ronde! Maar jullie hebben allebei veel geleerd! 🎉',ar:'{name} في المقدمة هذه الجولة! لكن كلاكما تعلم الكثير! 🎉'},
+  compDoneTitle:{tr:'Yarışma Bitti!',en:'Competition Over!',de:'Wettkampf beendet!',nl:'Wedstrijd afgelopen!',ar:'انتهت المسابقة!'},
+  compLoveMsg:{tr:'🐾 Sevgiyle ve merakla öğrenmeye devam edin!',en:'🐾 Keep learning with love and curiosity!',de:'🐾 Lernt weiter mit Liebe und Neugier!',nl:'🐾 Blijf leren met liefde en nieuwsgierigheid!',ar:'🐾 استمروا في التعلم بحب وفضول!'},
+
+  onlineTitle:{tr:'🌐 Uzaktan Yarışma',en:'🌐 Remote Competition',de:'🌐 Fernwettkampf',nl:'🌐 Wedstrijd op afstand',ar:'🌐 مسابقة عن بعد'},
+  onlineNote:{tr:'Not: Bu özellik, arkadaşınla aynı Claude çalışma alanında olmanızı gerektirebilir.',
+    en:'Note: this feature may require you and your friend to be in the same Claude workspace.',
+    de:'Hinweis: Diese Funktion erfordert möglicherweise, dass du und dein Freund im selben Claude-Arbeitsbereich seid.',
+    nl:'Let op: deze functie vereist mogelijk dat jij en je vriend in dezelfde Claude-werkruimte zitten.',
+    ar:'ملاحظة: قد تتطلب هذه الميزة أن تكون أنت وصديقك في نفس مساحة عمل Claude.'},
+  myNamePh:{tr:'Adın',en:'Your name',de:'Dein Name',nl:'Je naam',ar:'اسمك'},
+  createRoomBtn:{tr:'Oda Kur ➕',en:'Create Room ➕',de:'Raum erstellen ➕',nl:'Kamer maken ➕',ar:'إنشاء غرفة ➕'},
+  orText:{tr:'— ya da —',en:'— or —',de:'— oder —',nl:'— of —',ar:'— أو —'},
+  codePh:{tr:'ODA KODU',en:'ROOM CODE',de:'RAUMCODE',nl:'KAMERCODE',ar:'رمز الغرفة'},
+  joinRoomBtn:{tr:'Odaya Katıl 🔑',en:'Join Room 🔑',de:'Raum beitreten 🔑',nl:'Kamer joinen 🔑',ar:'انضم للغرفة 🔑'},
+  codeAlert:{tr:'Lütfen 4 haneli oda kodunu gir.',en:'Please enter the 4-letter room code.',de:'Bitte gib den 4-stelligen Raumcode ein.',nl:'Voer de 4-cijferige kamercode in.',ar:'الرجاء إدخال رمز الغرفة المكون من 4 أحرف.'},
+  roomFailAlert:{tr:'Oda kurulamadı. Çevrimiçi mod şu an kullanılamıyor olabilir.',en:'Could not create room. Online mode may be unavailable right now.',de:'Raum konnte nicht erstellt werden. Online-Modus evtl. nicht verfügbar.',nl:'Kamer maken mislukt. Online modus is mogelijk niet beschikbaar.',ar:'تعذر إنشاء الغرفة. قد يكون الوضع عبر الإنترنت غير متاح حاليًا.'},
+  noRoomAlert:{tr:'Bu kodla bir oda bulunamadı.',en:'No room found with this code.',de:'Kein Raum mit diesem Code gefunden.',nl:'Geen kamer gevonden met deze code.',ar:'لم يتم العثور على غرفة بهذا الرمز.'},
+  roomFullAlert:{tr:'Bu odada zaten 2 oyuncu var.',en:'This room already has 2 players.',de:'Dieser Raum hat bereits 2 Spieler.',nl:'Deze kamer heeft al 2 spelers.',ar:'هذه الغرفة تحتوي بالفعل على لاعبين.'},
+  joinFailAlert:{tr:'Odaya katılırken bir sorun oluştu.',en:'There was a problem joining the room.',de:'Beim Beitreten ist ein Problem aufgetreten.',nl:'Er ging iets mis bij het joinen.',ar:'حدثت مشكلة أثناء الانضمام إلى الغرفة.'},
+  roomCreatedTitle:{tr:'Oda Kuruldu!',en:'Room Created!',de:'Raum erstellt!',nl:'Kamer aangemaakt!',ar:'تم إنشاء الغرفة!'},
+  shareCode:{tr:'Bu kodu arkadaşınla paylaş:',en:'Share this code with your friend:',de:'Teile diesen Code mit deinem Freund:',nl:'Deel deze code met je vriend:',ar:'شارك هذا الرمز مع صديقك:'},
+  playNowBtn:{tr:'Hemen Oyna ▶',en:'Play Now ▶',de:'Jetzt spielen ▶',nl:'Nu spelen ▶',ar:'العب الآن ▶'},
+  playNowNote:{tr:'Arkadaşın katılmasa bile hemen oynayabilirsin, sonucunu sonra karşılaştırırsınız.',
+    en:'You can play right away even if your friend hasn\'t joined yet — compare results later.',
+    de:'Du kannst sofort spielen, auch wenn dein Freund noch nicht da ist — vergleicht die Ergebnisse später.',
+    nl:'Je kunt meteen spelen, ook als je vriend nog niet is toegetreden — vergelijk later de resultaten.',
+    ar:'يمكنك اللعب فورًا حتى لو لم ينضم صديقك بعد — قارنا النتائج لاحقًا.'},
+  joinedTitle:{tr:'Odaya Katıldın!',en:'You Joined the Room!',de:'Du bist dem Raum beigetreten!',nl:'Je bent toegetreden tot de kamer!',ar:'لقد انضممت إلى الغرفة!'},
+  codeLabel:{tr:'Kod:',en:'Code:',de:'Code:',nl:'Code:',ar:'الرمز:'},
+  yourResultTitle:{tr:'Senin Sonucun',en:'Your Result',de:'Dein Ergebnis',nl:'Jouw resultaat',ar:'نتيجتك'},
+  correctCount:{tr:'Doğru sayın:',en:'Correct answers:',de:'Richtige Antworten:',nl:'Goede antwoorden:',ar:'الإجابات الصحيحة:'},
+  waitingOpp:{tr:'Arkadaşın henüz oynamadı. Kod:',en:'Your friend hasn\'t played yet. Code:',de:'Dein Freund hat noch nicht gespielt. Code:',nl:'Je vriend heeft nog niet gespeeld. Code:',ar:'لم يلعب صديقك بعد. الرمز:'},
+  resultLoveMsg:{tr:'🐾 Ne kadar öğrendiğin, kimin kazandığından daha değerli! Harikasın.',en:'🐾 How much you learned matters more than who won! You\'re amazing.',de:'🐾 Wie viel du gelernt hast, zählt mehr als wer gewonnen hat! Du bist toll.',nl:'🐾 Hoeveel je geleerd hebt telt meer dan wie er wint! Je bent geweldig.',ar:'🐾 ما تعلمته أهم من من فاز! أنت رائع.'},
+  refreshBtn:{tr:'Sonucu Kontrol Et 🔄',en:'Check Result 🔄',de:'Ergebnis prüfen 🔄',nl:'Resultaat controleren 🔄',ar:'تحقق من النتيجة 🔄'},
+
+  badgesTitle:{tr:'🎖 Rozetlerim',en:'🎖 My Badges',de:'🎖 Meine Abzeichen',nl:'🎖 Mijn badges',ar:'🎖 أوسمتي'},
+  newBadgeToast:{tr:'🎖 Yeni rozet: {icon} {name}!',en:'🎖 New badge: {icon} {name}!',de:'🎖 Neues Abzeichen: {icon} {name}!',nl:'🎖 Nieuwe badge: {icon} {name}!',ar:'🎖 وسام جديد: {icon} {name}!'}
+};
+
+/* ============================================================
+   CONTENT DATA (multi-language)
+============================================================ */
+const SECTIONS_DATA = [
+  {id:'animals', icon:'🐾', color:'#5FB86B', name:{tr:'Hayvanlar',en:'Animals',de:'Tiere',nl:'Dieren',ar:'الحيوانات'}},
+  {id:'planets', icon:'🪐', color:'#5E7CE2', name:{tr:'Gezegenler',en:'Planets',de:'Planeten',nl:'Planeten',ar:'الكواكب'}},
+  {id:'jobs', icon:'👩‍⚕️', color:'#FF8B72', name:{tr:'Meslekler',en:'Jobs',de:'Berufe',nl:'Beroepen',ar:'المهن'}},
+  {id:'colors', icon:'🎨', color:'#E066C6', name:{tr:'Renkler',en:'Colors',de:'Farben',nl:'Kleuren',ar:'الألوان'}},
+  {id:'numbers', icon:'🔢', color:'#FFAA3C', name:{tr:'Sayılar',en:'Numbers',de:'Zahlen',nl:'Getallen',ar:'الأرقام'}},
+  {id:'shapes', icon:'🔺', color:'#4FC3B0', name:{tr:'Şekiller',en:'Shapes',de:'Formen',nl:'Vormen',ar:'الأشكال'}},
+  {id:'food', icon:'🍎', color:'#E85B5B', name:{tr:'Meyve&Sebze',en:'Fruits&Veg',de:'Obst&Gemüse',nl:'Fruit&Groente',ar:'فواكه وخضار'}},
+  {id:'vehicles', icon:'🚗', color:'#7A8FE0', name:{tr:'Taşıtlar',en:'Vehicles',de:'Fahrzeuge',nl:'Voertuigen',ar:'المركبات'}},
+  {id:'weather', icon:'🌤️', color:'#4FA8CB', name:{tr:'Hava&Mevsim',en:'Weather',de:'Wetter',nl:'Weer',ar:'الطقس'}},
+  {id:'body', icon:'🧠', color:'#C97BD1', name:{tr:'Vücudumuz',en:'Our Body',de:'Unser Körper',nl:'Ons Lichaam',ar:'جسمنا'}}
+];
+const secById = id => SECTIONS_DATA.find(s=>s.id===id);
+
+/* [emoji, {tr,en,de,nl,ar}] name lists — used for matching game AND templated quiz generation */
+const MATCH_DATA = {
+  animals:[["🐶",{tr:"Köpek",en:"Dog",de:"Hund",nl:"Hond",ar:"كلب"}],["🐱",{tr:"Kedi",en:"Cat",de:"Katze",nl:"Kat",ar:"قطة"}],
+    ["🐘",{tr:"Fil",en:"Elephant",de:"Elefant",nl:"Olifant",ar:"فيل"}],["🦁",{tr:"Aslan",en:"Lion",de:"Löwe",nl:"Leeuw",ar:"أسد"}],
+    ["🐰",{tr:"Tavşan",en:"Rabbit",de:"Hase",nl:"Konijn",ar:"أرنب"}],["🐼",{tr:"Panda",en:"Panda",de:"Panda",nl:"Panda",ar:"باندا"}],
+    ["🐢",{tr:"Kaplumbağa",en:"Turtle",de:"Schildkröte",nl:"Schildpad",ar:"سلحفاة"}],["🦋",{tr:"Kelebek",en:"Butterfly",de:"Schmetterling",nl:"Vlinder",ar:"فراشة"}],
+    ["🦒",{tr:"Zürafa",en:"Giraffe",de:"Giraffe",nl:"Giraf",ar:"زرافة"}],["🐵",{tr:"Maymun",en:"Monkey",de:"Affe",nl:"Aap",ar:"قرد"}],
+    ["🐻",{tr:"Ayı",en:"Bear",de:"Bär",nl:"Beer",ar:"دب"}],["🦉",{tr:"Baykuş",en:"Owl",de:"Eule",nl:"Uil",ar:"بومة"}]],
+  planets:[["🌍",{tr:"Dünya",en:"Earth",de:"Erde",nl:"Aarde",ar:"الأرض"}],["☀️",{tr:"Güneş",en:"Sun",de:"Sonne",nl:"Zon",ar:"الشمس"}],
+    ["🌙",{tr:"Ay",en:"Moon",de:"Mond",nl:"Maan",ar:"القمر"}],["⭐",{tr:"Yıldız",en:"Star",de:"Stern",nl:"Ster",ar:"نجمة"}],
+    ["🪐",{tr:"Satürn",en:"Saturn",de:"Saturn",nl:"Saturnus",ar:"زحل"}],["🚀",{tr:"Roket",en:"Rocket",de:"Rakete",nl:"Raket",ar:"صاروخ"}],
+    ["☄️",{tr:"Kuyruklu Yıldız",en:"Comet",de:"Komet",nl:"Komeet",ar:"مذنب"}],["👩‍🚀",{tr:"Astronot",en:"Astronaut",de:"Astronaut",nl:"Astronaut",ar:"رائد فضاء"}],
+    ["🔴",{tr:"Mars",en:"Mars",de:"Mars",nl:"Mars",ar:"المريخ"}],["🛰️",{tr:"Uydu",en:"Satellite",de:"Satellit",nl:"Satelliet",ar:"قمر صناعي"}]],
+  jobs:[["👩‍⚕️",{tr:"Doktor",en:"Doctor",de:"Arzt",nl:"Dokter",ar:"طبيب"}],["👩‍🏫",{tr:"Öğretmen",en:"Teacher",de:"Lehrer",nl:"Leraar",ar:"معلم"}],
+    ["👨‍🍳",{tr:"Aşçı",en:"Cook",de:"Koch",nl:"Kok",ar:"طاهٍ"}],["👮",{tr:"Polis",en:"Police Officer",de:"Polizist",nl:"Politieagent",ar:"شرطي"}],
+    ["👨‍🚒",{tr:"İtfaiyeci",en:"Firefighter",de:"Feuerwehrmann",nl:"Brandweerman",ar:"رجل إطفاء"}],["✈️",{tr:"Pilot",en:"Pilot",de:"Pilot",nl:"Piloot",ar:"طيار"}],
+    ["🌾",{tr:"Çiftçi",en:"Farmer",de:"Bauer",nl:"Boer",ar:"مزارع"}],["🎨",{tr:"Ressam",en:"Painter",de:"Maler",nl:"Schilder",ar:"رسام"}],
+    ["👷",{tr:"İnşaatçı",en:"Builder",de:"Bauarbeiter",nl:"Bouwvakker",ar:"عامل بناء"}],["💇",{tr:"Kuaför",en:"Hairdresser",de:"Friseur",nl:"Kapper",ar:"حلاق"}]],
+  colors:[["🔴",{tr:"Kırmızı",en:"Red",de:"Rot",nl:"Rood",ar:"أحمر"}],["🟠",{tr:"Turuncu",en:"Orange",de:"Orange",nl:"Oranje",ar:"برتقالي"}],
+    ["🟡",{tr:"Sarı",en:"Yellow",de:"Gelb",nl:"Geel",ar:"أصفر"}],["🟢",{tr:"Yeşil",en:"Green",de:"Grün",nl:"Groen",ar:"أخضر"}],
+    ["🔵",{tr:"Mavi",en:"Blue",de:"Blau",nl:"Blauw",ar:"أزرق"}],["🟣",{tr:"Mor",en:"Purple",de:"Lila",nl:"Paars",ar:"بنفسجي"}],
+    ["⚪",{tr:"Beyaz",en:"White",de:"Weiß",nl:"Wit",ar:"أبيض"}],["⚫",{tr:"Siyah",en:"Black",de:"Schwarz",nl:"Zwart",ar:"أسود"}],
+    ["🟤",{tr:"Kahverengi",en:"Brown",de:"Braun",nl:"Bruin",ar:"بني"}],["🩷",{tr:"Pembe",en:"Pink",de:"Rosa",nl:"Roze",ar:"وردي"}]],
+  numbers:[["1️⃣",{tr:"Bir",en:"One",de:"Eins",nl:"Een",ar:"واحد"}],["2️⃣",{tr:"İki",en:"Two",de:"Zwei",nl:"Twee",ar:"اثنان"}],
+    ["3️⃣",{tr:"Üç",en:"Three",de:"Drei",nl:"Drie",ar:"ثلاثة"}],["4️⃣",{tr:"Dört",en:"Four",de:"Vier",nl:"Vier",ar:"أربعة"}],
+    ["5️⃣",{tr:"Beş",en:"Five",de:"Fünf",nl:"Vijf",ar:"خمسة"}],["6️⃣",{tr:"Altı",en:"Six",de:"Sechs",nl:"Zes",ar:"ستة"}],
+    ["7️⃣",{tr:"Yedi",en:"Seven",de:"Sieben",nl:"Zeven",ar:"سبعة"}],["8️⃣",{tr:"Sekiz",en:"Eight",de:"Acht",nl:"Acht",ar:"ثمانية"}],
+    ["9️⃣",{tr:"Dokuz",en:"Nine",de:"Neun",nl:"Negen",ar:"تسعة"}],["🔟",{tr:"On",en:"Ten",de:"Zehn",nl:"Tien",ar:"عشرة"}]],
+  shapes:[["🔺",{tr:"Üçgen",en:"Triangle",de:"Dreieck",nl:"Driehoek",ar:"مثلث"}],["⬜",{tr:"Kare",en:"Square",de:"Quadrat",nl:"Vierkant",ar:"مربع"}],
+    ["⭕",{tr:"Daire",en:"Circle",de:"Kreis",nl:"Cirkel",ar:"دائرة"}],["⭐",{tr:"Yıldız",en:"Star",de:"Stern",nl:"Ster",ar:"نجمة"}],
+    ["❤️",{tr:"Kalp",en:"Heart",de:"Herz",nl:"Hart",ar:"قلب"}],["🔷",{tr:"Elmas",en:"Diamond",de:"Diamant",nl:"Diamant",ar:"ماس"}],
+    ["⬛",{tr:"Dikdörtgen",en:"Rectangle",de:"Rechteck",nl:"Rechthoek",ar:"مستطيل"}],["🔶",{tr:"Altıgen",en:"Hexagon",de:"Sechseck",nl:"Zeshoek",ar:"سداسي"}],
+    ["🟥",{tr:"Oval",en:"Oval",de:"Oval",nl:"Ovaal",ar:"بيضاوي"}],["📐",{tr:"Yamuk",en:"Trapezoid",de:"Trapez",nl:"Trapezium",ar:"شبه منحرف"}]],
+  food:[["🍎",{tr:"Elma",en:"Apple",de:"Apfel",nl:"Appel",ar:"تفاحة"}],["🍌",{tr:"Muz",en:"Banana",de:"Banane",nl:"Banaan",ar:"موزة"}],
+    ["🥕",{tr:"Havuç",en:"Carrot",de:"Karotte",nl:"Wortel",ar:"جزرة"}],["🍉",{tr:"Karpuz",en:"Watermelon",de:"Wassermelone",nl:"Watermeloen",ar:"بطيخ"}],
+    ["🍅",{tr:"Domates",en:"Tomato",de:"Tomate",nl:"Tomaat",ar:"طماطم"}],["🥦",{tr:"Brokoli",en:"Broccoli",de:"Brokkoli",nl:"Broccoli",ar:"بروكلي"}],
+    ["🍇",{tr:"Üzüm",en:"Grapes",de:"Trauben",nl:"Druiven",ar:"عنب"}],["🍓",{tr:"Çilek",en:"Strawberry",de:"Erdbeere",nl:"Aardbei",ar:"فراولة"}],
+    ["🍑",{tr:"Şeftali",en:"Peach",de:"Pfirsich",nl:"Perzik",ar:"خوخ"}],["🍍",{tr:"Ananas",en:"Pineapple",de:"Ananas",nl:"Ananas",ar:"أناناس"}]],
+  vehicles:[["🚗",{tr:"Araba",en:"Car",de:"Auto",nl:"Auto",ar:"سيارة"}],["✈️",{tr:"Uçak",en:"Airplane",de:"Flugzeug",nl:"Vliegtuig",ar:"طائرة"}],
+    ["🚢",{tr:"Gemi",en:"Ship",de:"Schiff",nl:"Schip",ar:"سفينة"}],["🚲",{tr:"Bisiklet",en:"Bicycle",de:"Fahrrad",nl:"Fiets",ar:"دراجة"}],
+    ["🚂",{tr:"Tren",en:"Train",de:"Zug",nl:"Trein",ar:"قطار"}],["🚁",{tr:"Helikopter",en:"Helicopter",de:"Hubschrauber",nl:"Helikopter",ar:"مروحية"}],
+    ["🚌",{tr:"Otobüs",en:"Bus",de:"Bus",nl:"Bus",ar:"حافلة"}],["🚒",{tr:"İtfaiye",en:"Fire Truck",de:"Feuerwehrauto",nl:"Brandweerwagen",ar:"سيارة إطفاء"}],
+    ["🚚",{tr:"Kamyon",en:"Truck",de:"Lastwagen",nl:"Vrachtwagen",ar:"شاحنة"}],["🏍️",{tr:"Motosiklet",en:"Motorcycle",de:"Motorrad",nl:"Motor",ar:"دراجة نارية"}]],
+  weather:[["☀️",{tr:"Güneşli",en:"Sunny",de:"Sonnig",nl:"Zonnig",ar:"مشمس"}],["🌧️",{tr:"Yağmurlu",en:"Rainy",de:"Regnerisch",nl:"Regenachtig",ar:"ممطر"}],
+    ["❄️",{tr:"Karlı",en:"Snowy",de:"Schneereich",nl:"Sneeuwachtig",ar:"مثلج"}],["🌈",{tr:"Gökkuşağı",en:"Rainbow",de:"Regenbogen",nl:"Regenboog",ar:"قوس قزح"}],
+    ["⛈️",{tr:"Fırtınalı",en:"Stormy",de:"Stürmisch",nl:"Stormachtig",ar:"عاصف"}],["🍂",{tr:"Sonbahar",en:"Autumn",de:"Herbst",nl:"Herfst",ar:"الخريف"}],
+    ["🌸",{tr:"İlkbahar",en:"Spring",de:"Frühling",nl:"Lente",ar:"الربيع"}],["☁️",{tr:"Bulutlu",en:"Cloudy",de:"Bewölkt",nl:"Bewolkt",ar:"غائم"}],
+    ["🌫️",{tr:"Sisli",en:"Foggy",de:"Neblig",nl:"Mistig",ar:"ضبابي"}],["💨",{tr:"Rüzgarlı",en:"Windy",de:"Windig",nl:"Winderig",ar:"عاصف الرياح"}]],
+  body:[["👀",{tr:"Göz",en:"Eye",de:"Auge",nl:"Oog",ar:"عين"}],["👂",{tr:"Kulak",en:"Ear",de:"Ohr",nl:"Oor",ar:"أذن"}],
+    ["👃",{tr:"Burun",en:"Nose",de:"Nase",nl:"Neus",ar:"أنف"}],["👄",{tr:"Ağız",en:"Mouth",de:"Mund",nl:"Mond",ar:"فم"}],
+    ["❤️",{tr:"Kalp",en:"Heart",de:"Herz",nl:"Hart",ar:"قلب"}],["🧠",{tr:"Beyin",en:"Brain",de:"Gehirn",nl:"Brein",ar:"دماغ"}],
+    ["🦷",{tr:"Diş",en:"Tooth",de:"Zahn",nl:"Tand",ar:"سن"}],["🖐️",{tr:"El",en:"Hand",de:"Hand",nl:"Hand",ar:"يد"}],
+    ["🦶",{tr:"Ayak",en:"Foot",de:"Fuß",nl:"Voet",ar:"قدم"}],["💇",{tr:"Saç",en:"Hair",de:"Haar",nl:"Haar",ar:"شعر"}]]
+};
+function getMatchItems(sectionId, lang){ return MATCH_DATA[sectionId].map(([e,n])=>[e, n[lang]||n.en]); }
+
+const TEMPLATE_Q = {
+  jobs:{tr:"Bu meslek nedir?",en:"What job is this?",de:"Welcher Beruf ist das?",nl:"Welk beroep is dit?",ar:"ما هذه المهنة؟"},
+  colors:{tr:"Bu hangi renktir?",en:"What color is this?",de:"Welche Farbe ist das?",nl:"Welke kleur is dit?",ar:"ما هذا اللون؟"},
+  shapes:{tr:"Bu şekle ne denir?",en:"What shape is this?",de:"Wie heißt diese Form?",nl:"Hoe heet deze vorm?",ar:"ما اسم هذا الشكل؟"},
+  food:{tr:"Bunun adı nedir?",en:"What is this called?",de:"Wie heißt das?",nl:"Hoe heet dit?",ar:"ما اسم هذا؟"},
+  vehicles:{tr:"Bu araca ne denir?",en:"What vehicle is this?",de:"Was ist das für ein Fahrzeug?",nl:"Wat voor voertuig is dit?",ar:"ما هذه المركبة؟"},
+  weather:{tr:"Bu hava durumuna ne denir?",en:"What is this weather called?",de:"Wie nennt man dieses Wetter?",nl:"Hoe noem je dit weer?",ar:"ما اسم هذا الطقس؟"},
+  body:{tr:"Bu organımıza ne denir?",en:"What body part is this?",de:"Welcher Körperteil ist das?",nl:"Welk lichaamsdeel is dit?",ar:"ما هذا العضو؟"}
+};
+
+/* hand-crafted animals questions: [emoji, [eA,eB,eC], {lang:{q, a:[t1,t2,t3]}}] — index 0 of a[] is always the correct one */
+const ANIMALS_Q_DATA = [
+  ["🐶",["🐕","🌳","🌊"],{tr:{q:"Köpekler mutlu olunca ne yapar?",a:["Kuyruğunu sallar","Ağaca tırmanır","Denizde yüzer"]},en:{q:"What do dogs do when happy?",a:["Wag their tail","Climb a tree","Swim in the sea"]},de:{q:"Was machen Hunde, wenn sie glücklich sind?",a:["Sie wedeln mit dem Schwanz","Sie klettern auf einen Baum","Sie schwimmen im Meer"]},nl:{q:"Wat doen honden als ze blij zijn?",a:["Ze kwispelen met hun staart","Ze klimmen in een boom","Ze zwemmen in zee"]},ar:{q:"ماذا يفعل الكلب عندما يكون سعيدًا؟",a:["يهز ذيله","يتسلق شجرة","يسبح في البحر"]}}],
+  ["🐱",["😺","🐕","🐄"],{tr:{q:"Kediler nasıl ses çıkarır?",a:["Miyav","Hav hav","Möö"]},en:{q:"What sound do cats make?",a:["Meow","Woof","Moo"]},de:{q:"Welches Geräusch machen Katzen?",a:["Miau","Wuff","Muh"]},nl:{q:"Welk geluid maken katten?",a:["Miauw","Woef","Boe"]},ar:{q:"ما الصوت الذي تصدره القطط؟",a:["مياو","هاو هاو","موو"]}}],
+  ["🐄",["🥛","🍯","🍊"],{tr:{q:"İnekler bize hangi içeceği verir?",a:["Süt","Bal","Portakal suyu"]},en:{q:"What drink do cows give us?",a:["Milk","Honey","Orange juice"]},de:{q:"Welches Getränk geben uns Kühe?",a:["Milch","Honig","Orangensaft"]},nl:{q:"Welke drank geven koeien ons?",a:["Melk","Honing","Sinaasappelsap"]},ar:{q:"أي مشروب تعطينا الأبقار؟",a:["حليب","عسل","عصير برتقال"]}}],
+  ["🐝",["🍯","🥛","🥚"],{tr:{q:"Arılar çalışıp bize ne verir?",a:["Bal","Süt","Yumurta"]},en:{q:"What do bees give us?",a:["Honey","Milk","Eggs"]},de:{q:"Was geben uns Bienen?",a:["Honig","Milch","Eier"]},nl:{q:"Wat geven bijen ons?",a:["Honing","Melk","Eieren"]},ar:{q:"ماذا تعطينا النحل؟",a:["عسل","حليب","بيض"]}}],
+  ["🐘",["🐘","🐇","🐈"],{tr:{q:"Karada yaşayan en büyük hayvan hangisidir?",a:["Fil","Tavşan","Kedi"]},en:{q:"What is the biggest land animal?",a:["Elephant","Rabbit","Cat"]},de:{q:"Was ist das größte Landtier?",a:["Elefant","Hase","Katze"]},nl:{q:"Wat is het grootste landdier?",a:["Olifant","Konijn","Kat"]},ar:{q:"ما أكبر حيوان بري؟",a:["فيل","أرنب","قطة"]}}],
+  ["🐢",["🐢","🐇","🦅"],{tr:{q:"Hangi hayvan çok yavaş yürür?",a:["Kaplumbağa","Tavşan","Kartal"]},en:{q:"Which animal walks very slowly?",a:["Turtle","Rabbit","Eagle"]},de:{q:"Welches Tier läuft sehr langsam?",a:["Schildkröte","Hase","Adler"]},nl:{q:"Welk dier loopt heel langzaam?",a:["Schildpad","Konijn","Adelaar"]},ar:{q:"أي حيوان يمشي ببطء شديد؟",a:["سلحفاة","أرنب","نسر"]}}],
+  ["🐟",["💧","🌳","🏜️"],{tr:{q:"Balıklar nerede yaşar?",a:["Suda","Ağaçta","Çölde"]},en:{q:"Where do fish live?",a:["In water","In a tree","In the desert"]},de:{q:"Wo leben Fische?",a:["Im Wasser","Auf einem Baum","In der Wüste"]},nl:{q:"Waar leven vissen?",a:["In water","In een boom","In de woestijn"]},ar:{q:"أين تعيش الأسماك؟",a:["في الماء","على شجرة","في الصحراء"]}}],
+  ["🐕",["💧","🙈","😨"],{tr:{q:"Susamış bir hayvan görürsek ne yapmalıyız?",a:["Ona su vermeliyiz","Görmezden gelmeliyiz","Korkutmalıyız"]},en:{q:"What should we do if we see a thirsty animal?",a:["Give it water","Ignore it","Scare it"]},de:{q:"Was tun wir, wenn wir ein durstiges Tier sehen?",a:["Ihm Wasser geben","Es ignorieren","Es erschrecken"]},nl:{q:"Wat doen we als we een dorstig dier zien?",a:["Water geven","Negeren","Bang maken"]},ar:{q:"ماذا نفعل إذا رأينا حيوانًا عطشانًا؟",a:["نعطيه ماء","نتجاهله","نخيفه"]}}],
+  ["🐾",["🤍","📢","🙈"],{tr:{q:"Üşüyen bir sokak kedisi görürsek ne yapmalıyız?",a:["Nazikçe yardım etmeliyiz","Kovalamalıyız","Görmezden gelmeliyiz"]},en:{q:"What should we do if we see a cold street cat?",a:["Kindly help it","Chase it away","Ignore it"]},de:{q:"Was tun wir, wenn wir eine frierende Straßenkatze sehen?",a:["Ihr freundlich helfen","Sie verjagen","Sie ignorieren"]},nl:{q:"Wat doen we als we een koude zwerfkat zien?",a:["Vriendelijk helpen","Wegjagen","Negeren"]},ar:{q:"ماذا نفعل إذا رأينا قطة شارع تشعر بالبرد؟",a:["نساعدها بلطف","نطاردها","نتجاهلها"]}}],
+  ["🦁",["🦁","🐭","🦋"],{tr:{q:"Ormanlar kralı olarak bilinen hayvan hangisidir?",a:["Aslan","Fare","Kelebek"]},en:{q:"Which animal is known as king of the jungle?",a:["Lion","Mouse","Butterfly"]},de:{q:"Welches Tier ist als König des Dschungels bekannt?",a:["Löwe","Maus","Schmetterling"]},nl:{q:"Welk dier is bekend als koning van de jungle?",a:["Leeuw","Muis","Vlinder"]},ar:{q:"أي حيوان يُعرف بملك الغابة؟",a:["أسد","فأر","فراشة"]}}]
+];
+const PLANETS_Q_DATA = [
+  ["🌍",["🌍","🔴","🌙"],{tr:{q:"Bizim yaşadığımız gezegenin adı nedir?",a:["Dünya","Mars","Ay"]},en:{q:"What planet do we live on?",a:["Earth","Mars","Moon"]},de:{q:"Auf welchem Planeten leben wir?",a:["Erde","Mars","Mond"]},nl:{q:"Op welke planeet wonen wij?",a:["Aarde","Mars","Maan"]},ar:{q:"ما اسم الكوكب الذي نعيش عليه؟",a:["الأرض","المريخ","القمر"]}}],
+  ["☀️",["☀️","🌙","🌍"],{tr:{q:"Güneş sisteminin merkezinde ne vardır?",a:["Güneş","Ay","Dünya"]},en:{q:"What is at the center of the solar system?",a:["The Sun","The Moon","The Earth"]},de:{q:"Was ist das Zentrum des Sonnensystems?",a:["Die Sonne","Der Mond","Die Erde"]},nl:{q:"Wat staat in het midden van het zonnestelsel?",a:["De zon","De maan","De aarde"]},ar:{q:"ما الذي يوجد في مركز النظام الشمسي؟",a:["الشمس","القمر","الأرض"]}}],
+  ["🔴",["🔴","🟠","🟤"],{tr:{q:"Kırmızı gezegen olarak bilinen hangisidir?",a:["Mars","Venüs","Jüpiter"]},en:{q:"Which planet is known as the red planet?",a:["Mars","Venus","Jupiter"]},de:{q:"Welcher Planet ist als roter Planet bekannt?",a:["Mars","Venus","Jupiter"]},nl:{q:"Welke planeet staat bekend als de rode planeet?",a:["Mars","Venus","Jupiter"]},ar:{q:"أي كوكب يُعرف بالكوكب الأحمر؟",a:["المريخ","الزهرة","المشتري"]}}],
+  ["🪐",["🪐","🌍","⚪"],{tr:{q:"Halkalarıyla ünlü gezegen hangisidir?",a:["Satürn","Dünya","Merkür"]},en:{q:"Which planet is famous for its rings?",a:["Saturn","Earth","Mercury"]},de:{q:"Welcher Planet ist für seine Ringe bekannt?",a:["Saturn","Erde","Merkur"]},nl:{q:"Welke planeet is beroemd om zijn ringen?",a:["Saturnus","Aarde","Mercurius"]},ar:{q:"أي كوكب يشتهر بحلقاته؟",a:["زحل","الأرض","عطارد"]}}],
+  ["🚀",["🚀","🚌","⛵"],{tr:{q:"Uzaya giden araca ne denir?",a:["Roket","Otobüs","Tekne"]},en:{q:"What is the vehicle that goes to space called?",a:["Rocket","Bus","Boat"]},de:{q:"Wie heißt das Fahrzeug, das ins Weltall fliegt?",a:["Rakete","Bus","Boot"]},nl:{q:"Hoe heet het voertuig dat de ruimte in gaat?",a:["Raket","Bus","Boot"]},ar:{q:"ما اسم المركبة التي تذهب إلى الفضاء؟",a:["صاروخ","حافلة","قارب"]}}]
+];
+const NUMBERS_Q_DATA = [
+  ["✋",["5","4","6"],{tr:{q:"Bir elin kaç parmağı vardır?",a:["5","4","6"]},en:{q:"How many fingers does one hand have?",a:["5","4","6"]},de:{q:"Wie viele Finger hat eine Hand?",a:["5","4","6"]},nl:{q:"Hoeveel vingers heeft één hand?",a:["5","4","6"]},ar:{q:"كم عدد أصابع اليد الواحدة؟",a:["5","4","6"]}}],
+  ["🙌",["10","8","12"],{tr:{q:"İki elin toplam kaç parmağı vardır?",a:["10","8","12"]},en:{q:"How many fingers do two hands have in total?",a:["10","8","12"]},de:{q:"Wie viele Finger haben zwei Hände insgesamt?",a:["10","8","12"]},nl:{q:"Hoeveel vingers hebben twee handen samen?",a:["10","8","12"]},ar:{q:"كم عدد أصابع اليدين معًا؟",a:["10","8","12"]}}]
+];
+
+const COUNT_ITEMS = [["🐥",{tr:"civciv",en:"chick",de:"Küken",nl:"kuiken",ar:"كتكوت"}],["🦋",{tr:"kelebek",en:"butterfly",de:"Schmetterling",nl:"vlinder",ar:"فراشة"}],
+  ["🐝",{tr:"arı",en:"bee",de:"Biene",nl:"bij",ar:"نحلة"}],["🐟",{tr:"balık",en:"fish",de:"Fisch",nl:"vis",ar:"سمكة"}],
+  ["🐱",{tr:"kedi",en:"cat",de:"Katze",nl:"kat",ar:"قطة"}],["⭐",{tr:"yıldız",en:"star",de:"Stern",nl:"ster",ar:"نجمة"}],
+  ["🎈",{tr:"balon",en:"balloon",de:"Ballon",nl:"ballon",ar:"بالون"}],["🍓",{tr:"çilek",en:"strawberry",de:"Erdbeere",nl:"aardbei",ar:"فراولة"}]];
+const APPLE_ITEM = [["🍎",{tr:"elma",en:"apple",de:"Apfel",nl:"appel",ar:"تفاحة"}]];
+const COUNT_Q = {tr:"Kaç tane {name} var?",en:"How many {name} are there?",de:"Wie viele {name} siehst du?",nl:"Hoeveel {name} zie je?",ar:"كم عدد {name} الموجودة؟"};
+const ADD_Q = {tr:"Toplam kaç {name} var?",en:"How many {name} in total?",de:"Wie viele {name} insgesamt?",nl:"Hoeveel {name} in totaal?",ar:"كم عدد {name} الإجمالي؟"};
+
+const SIZE_RANK = [
+  ["🐜",1,{tr:"Karınca",en:"Ant",de:"Ameise",nl:"Mier",ar:"نملة"}],["🐝",2,{tr:"Arı",en:"Bee",de:"Biene",nl:"Bij",ar:"نحلة"}],
+  ["🦋",3,{tr:"Kelebek",en:"Butterfly",de:"Schmetterling",nl:"Vlinder",ar:"فراشة"}],["🐭",4,{tr:"Fare",en:"Mouse",de:"Maus",nl:"Muis",ar:"فأر"}],
+  ["🐇",5,{tr:"Tavşan",en:"Rabbit",de:"Hase",nl:"Konijn",ar:"أرنب"}],["🐈",6,{tr:"Kedi",en:"Cat",de:"Katze",nl:"Kat",ar:"قطة"}],
+  ["🐔",7,{tr:"Tavuk",en:"Chicken",de:"Huhn",nl:"Kip",ar:"دجاجة"}],["🐕",8,{tr:"Köpek",en:"Dog",de:"Hund",nl:"Hond",ar:"كلب"}],
+  ["🐐",9,{tr:"Keçi",en:"Goat",de:"Ziege",nl:"Geit",ar:"ماعز"}],["🐑",10,{tr:"Koyun",en:"Sheep",de:"Schaf",nl:"Schaap",ar:"خروف"}],
+  ["🐖",11,{tr:"Domuz",en:"Pig",de:"Schwein",nl:"Varken",ar:"خنزير"}],["🐎",12,{tr:"At",en:"Horse",de:"Pferd",nl:"Paard",ar:"حصان"}],
+  ["🐄",13,{tr:"İnek",en:"Cow",de:"Kuh",nl:"Koe",ar:"بقرة"}],["🦁",14,{tr:"Aslan",en:"Lion",de:"Löwe",nl:"Leeuw",ar:"أسد"}],
+  ["🦒",15,{tr:"Zürafa",en:"Giraffe",de:"Giraffe",nl:"Giraf",ar:"زرافة"}],["🐘",16,{tr:"Fil",en:"Elephant",de:"Elefant",nl:"Olifant",ar:"فيل"}],
+  ["🐋",17,{tr:"Balina",en:"Whale",de:"Wal",nl:"Walvis",ar:"حوت"}]
+];
+const SIZE_Q = {tr:"{A} mi, {B} mi daha büyüktür?",en:"Which is bigger, {A} or {B}?",de:"Was ist größer, {A} oder {B}?",nl:"Wat is groter, {A} of {B}?",ar:"أيهما أكبر، {A} أم {B}؟"};
+const SIZE_EQUAL = {tr:"İkisi de aynı boyutta",en:"Both are the same size",de:"Beide sind gleich groß",nl:"Beide zijn even groot",ar:"كلاهما بنفس الحجم"};
+
+const FACTS = [
+  ["🐘",{tr:"Fillerin hafızası çok güçlüdür, yıllar sonra bile arkadaşlarını hatırlayabilirler!",en:"Elephants have amazing memories — they can remember friends even years later!",de:"Elefanten haben ein starkes Gedächtnis — sie erinnern sich noch Jahre später an Freunde!",nl:"Olifanten hebben een sterk geheugen — ze herinneren zich vrienden zelfs na jaren!",ar:"تتمتع الفيلة بذاكرة قوية جدًا، ويمكنها تذكر أصدقائها حتى بعد سنوات!"}],
+  ["🐬",{tr:"Yunuslar birbirlerine kendi özel isimleriyle seslenir!",en:"Dolphins call each other by their own special names!",de:"Delfine rufen sich gegenseitig mit eigenen besonderen Namen!",nl:"Dolfijnen roepen elkaar bij hun eigen speciale naam!",ar:"تنادي الدلافين بعضها بأسماء خاصة بها!"}],
+  ["🦋",{tr:"Kelebekler ayaklarıyla tat alabilir!",en:"Butterflies can taste with their feet!",de:"Schmetterlinge können mit ihren Füßen schmecken!",nl:"Vlinders kunnen proeven met hun voeten!",ar:"يمكن للفراشات أن تتذوق بأقدامها!"}],
+  ["🦉",{tr:"Baykuşlar başlarını neredeyse tam tur çevirebilir!",en:"Owls can turn their heads almost all the way around!",de:"Eulen können ihren Kopf fast komplett drehen!",nl:"Uilen kunnen hun hoofd bijna helemaal ronddraaien!",ar:"يمكن للبوم أن يدير رأسه دورة كاملة تقريبًا!"}],
+  ["🐜",{tr:"Karıncalar kendi ağırlığının kat kat fazlasını taşıyabilir!",en:"Ants can carry many times their own body weight!",de:"Ameisen können ein Vielfaches ihres eigenen Gewichts tragen!",nl:"Mieren kunnen vele malen hun eigen gewicht dragen!",ar:"يمكن للنمل أن يحمل أضعاف وزنه!"}],
+  ["🐙",{tr:"Ahtapotların üç kalbi vardır!",en:"Octopuses have three hearts!",de:"Oktopusse haben drei Herzen!",nl:"Octopussen hebben drie harten!",ar:"لدى الأخطبوط ثلاثة قلوب!"}],
+  ["🐢",{tr:"Bazı kaplumbağalar 100 yıldan fazla yaşayabilir!",en:"Some turtles can live for more than 100 years!",de:"Manche Schildkröten können über 100 Jahre alt werden!",nl:"Sommige schildpadden kunnen ouder dan 100 jaar worden!",ar:"يمكن لبعض السلاحف أن تعيش أكثر من 100 عام!"}],
+  ["🐝",{tr:"Arılar dans ederek birbirlerine çiçek yerini anlatır!",en:"Bees dance to tell each other where the flowers are!",de:"Bienen tanzen, um sich zu zeigen, wo Blumen sind!",nl:"Bijen dansen om elkaar te vertellen waar de bloemen zijn!",ar:"تقوم النحل بالرقص لإخبار بعضها بمكان الزهور!"}],
+  ["🦒",{tr:"Zürafaların dili mor-siyah renktedir, güneşten korunmasına yardımcı olur!",en:"A giraffe's tongue is purple-black, which helps protect it from the sun!",de:"Die Zunge einer Giraffe ist lila-schwarz, das schützt sie vor der Sonne!",nl:"De tong van een giraffe is paars-zwart, dat beschermt tegen de zon!",ar:"لسان الزرافة بلون أرجواني-أسود، مما يساعد في حمايته من الشمس!"}],
+  ["🐧",{tr:"Penguenler ömür boyu aynı eşle kalabilir!",en:"Penguins can stay with the same partner for life!",de:"Pinguine können ihr ganzes Leben mit demselben Partner verbringen!",nl:"Pinguïns kunnen hun hele leven bij dezelfde partner blijven!",ar:"يمكن لطيور البطريق أن تبقى مع نفس الشريك طوال حياتها!"}]
+];
+
+const BADGES = [
+  {id:'first', icon:'🌱', name:{tr:'İlk Adım',en:'First Step',de:'Erster Schritt',nl:'Eerste Stap',ar:'الخطوة الأولى'}, need:p=>p.stats.correct>=1},
+  {id:'curious', icon:'🔍', name:{tr:'Meraklı Kaşif',en:'Curious Explorer',de:'Neugieriger Entdecker',nl:'Nieuwsgierige Ontdekker',ar:'المستكشف الفضولي'}, need:p=>p.stats.correct>=25},
+  {id:'master', icon:'🎓', name:{tr:'Bilgi Ustası',en:'Knowledge Master',de:'Wissensmeister',nl:'Kennismeester',ar:'سيد المعرفة'}, need:p=>p.stats.correct>=100},
+  {id:'legend', icon:'👑', name:{tr:'Efsane Öğrenci',en:'Legendary Learner',de:'Legendärer Lerner',nl:'Legendarische Leerling',ar:'المتعلم الأسطوري'}, need:p=>p.stats.correct>=250},
+  {id:'memory', icon:'🧩', name:{tr:'Hafıza Şampiyonu',en:'Memory Champion',de:'Gedächtnischampion',nl:'Geheugenkampioen',ar:'بطل الذاكرة'}, need:p=>p.stats.matches>=1},
+  {id:'memory5', icon:'🧠', name:{tr:'Hafıza Ustası',en:'Memory Master',de:'Gedächtnismeister',nl:'Geheugenmeester',ar:'سيد الذاكرة'}, need:p=>p.stats.matches>=5},
+  {id:'racer', icon:'🏁', name:{tr:'Yarışmacı',en:'Competitor',de:'Wettkämpfer',nl:'Deelnemer',ar:'المتسابق'}, need:p=>p.stats.comps>=1},
+  {id:'allsections', icon:'🌍', name:{tr:'Tüm Bölümler',en:'All Sections',de:'Alle Bereiche',nl:'Alle Onderdelen',ar:'كل الأقسام'}, need:p=>Object.keys(p.stats.sections||{}).length>=SECTIONS_DATA.length}
+];
+const PRAISE = [
+  {tr:"Harikasın! 🎉",en:"You're amazing! 🎉",de:"Du bist toll! 🎉",nl:"Je bent geweldig! 🎉",ar:"أنت رائع! 🎉"},
+  {tr:"Aferin sana! 🌟",en:"Well done! 🌟",de:"Gut gemacht! 🌟",nl:"Goed gedaan! 🌟",ar:"أحسنت! 🌟"},
+  {tr:"Çok doğru! 💚",en:"Correct! 💚",de:"Richtig! 💚",nl:"Klopt! 💚",ar:"صحيح! 💚"},
+  {tr:"Süpersin! 🏆",en:"Super! 🏆",de:"Super! 🏆",nl:"Super! 🏆",ar:"رائع! 🏆"},
+  {tr:"Bravo! 👏",en:"Bravo! 👏",de:"Bravo! 👏",nl:"Bravo! 👏",ar:"برافو! 👏"},
+  {tr:"Tam isabet! ✨",en:"Spot on! ✨",de:"Genau richtig! ✨",nl:"Precies goed! ✨",ar:"إجابة صحيحة تمامًا! ✨"}
+];
+const GENTLE = [
+  {tr:"Az kaldı, doğrusu şuydu:",en:"Almost! The right answer was:",de:"Fast geschafft, richtig war:",nl:"Bijna goed, het juiste antwoord was:",ar:"كنت قريبًا! الإجابة الصحيحة كانت:"},
+  {tr:"Merak etme, öğreniyoruz:",en:"No worries, we're learning:",de:"Keine Sorge, wir lernen noch:",nl:"Geen zorgen, we leren nog:",ar:"لا بأس، نحن نتعلم:"},
+  {tr:"Bir dahakine yaparsın, doğrusu:",en:"You'll get it next time:",de:"Beim nächsten Mal klappt's, es war:",nl:"Volgende keer lukt het, het was:",ar:"ستنجح في المرة القادمة، كانت:"}
+];
+const AVATARS = ["🐶","🐱","🐰","🦁","🐼","🦊","🐨","🐯","🐸","🐵","🦄","🐻"];
+
+/* ============================================================
+   STATE / STORAGE
+============================================================ */
+/* Play Store build: no fake purchases, no ad-style interstitials — fully free v1.
+   Flip to false only for the interactive Claude-artifact demo if you want to show the concept. */
+const STORE_SAFE_MODE = true;
+
+const FREE_SECTIONS = ['animals','colors','numbers'];
+const FREE_LANGS = ['tr','en'];
+function purchasePremium(onResult){
+  try{
+    if(window.Capacitor && window.CapacitorPurchases && typeof window.CapacitorPurchases.purchase==='function'){
+      window.CapacitorPurchases.purchase('premium_unlock').then(()=>{ store.premium=true; onResult(true); }).catch(()=>onResult(false));
+      return;
+    }
+  }catch(e){}
+  onResult(null); // no native billing plugin present (browser / not yet wired)
+}
+
+const store = {
+  get premium(){ try{ return localStorage.getItem('hd_premium')==='1'; }catch(e){ return false; } },
+  set premium(v){ try{ localStorage.setItem('hd_premium', v?'1':'0'); }catch(e){} }
+};
+const profileStore = {
+  load(){ try{ const raw=localStorage.getItem('hd_profile'); return raw?JSON.parse(raw):null; }catch(e){ return null; } },
+  save(p){ try{ localStorage.setItem('hd_profile', JSON.stringify(p)); }catch(e){} }
+};
+let profile = null;
+let newlyEarnedBadges = [];
+function ensureProfileShape(p){ p.stats = p.stats || {correct:0, matches:0, comps:0, sections:{}}; p.badges = p.badges || []; return p; }
+function checkBadges(){
+  if(!profile) return; ensureProfileShape(profile);
+  BADGES.forEach(b=>{ if(!profile.badges.includes(b.id) && b.need(profile)){ profile.badges.push(b.id); newlyEarnedBadges.push(b); } });
+  profileStore.save(profile);
+}
+function showBadgeToastQueue(){
+  if(newlyEarnedBadges.length===0) return;
+  const b = newlyEarnedBadges.shift();
+  showToast(t('newBadgeToast',{icon:b.icon,name:b.name[currentLang]||b.name.en}));
+  playDing(); burstConfetti(14);
+  if(newlyEarnedBadges.length>0) setTimeout(showBadgeToastQueue, 1500);
+}
+
+let dbCap = null, dbAvailable = false;
+(async function initCaps(){ try{ dbCap = await claude.use('db'); dbAvailable = !!dbCap; }catch(e){ dbAvailable = false; } })();
+
+const stage = document.getElementById('stage');
+let quiz = null, match = null, comp = null;
+
+/* ============================================================
+   AUDIO / SPEECH / CONFETTI
+============================================================ */
+let audioCtx = null;
+function ensureAudio(){ if(!audioCtx){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); } if(audioCtx.state==='suspended') audioCtx.resume(); }
+function playApplause(){
+  ensureAudio(); const ctx=audioCtx, now=ctx.currentTime;
+  [523.25,659.25,783.99,1046.5].forEach((freq,i)=>{
+    const osc=ctx.createOscillator(), gain=ctx.createGain();
+    osc.type='triangle'; osc.frequency.value=freq;
+    gain.gain.setValueAtTime(0.0001, now+i*0.09);
+    gain.gain.linearRampToValueAtTime(0.18, now+i*0.09+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now+i*0.09+0.28);
+    osc.connect(gain); gain.connect(ctx.destination); osc.start(now+i*0.09); osc.stop(now+i*0.09+0.3);
+  });
+  const clapStart=now+0.32;
+  for(let i=0;i<14;i++){
+    const t2=clapStart+i*0.055+Math.random()*0.02;
+    const bufferSize=ctx.sampleRate*0.05;
+    const buffer=ctx.createBuffer(1,bufferSize,ctx.sampleRate);
+    const data=buffer.getChannelData(0);
+    for(let j=0;j<bufferSize;j++){ data[j]=(Math.random()*2-1)*(1-j/bufferSize); }
+    const noise=ctx.createBufferSource(); noise.buffer=buffer;
+    const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1800+Math.random()*1500; bp.Q.value=0.8;
+    const g=ctx.createGain(); g.gain.setValueAtTime(0.35+Math.random()*0.15,t2); g.gain.exponentialRampToValueAtTime(0.001,t2+0.09);
+    noise.connect(bp); bp.connect(g); g.connect(ctx.destination); noise.start(t2); noise.stop(t2+0.1);
+  }
+}
+function playGentle(){
+  ensureAudio(); const ctx=audioCtx, now=ctx.currentTime;
+  const osc=ctx.createOscillator(), gain=ctx.createGain();
+  osc.type='sine'; osc.frequency.setValueAtTime(392,now); osc.frequency.exponentialRampToValueAtTime(330,now+0.3);
+  gain.gain.setValueAtTime(0.0001,now); gain.gain.linearRampToValueAtTime(0.14,now+0.03); gain.gain.exponentialRampToValueAtTime(0.0001,now+0.4);
+  osc.connect(gain); gain.connect(ctx.destination); osc.start(now); osc.stop(now+0.42);
+}
+function playDing(){
+  ensureAudio(); const ctx=audioCtx, now=ctx.currentTime;
+  const osc=ctx.createOscillator(), gain=ctx.createGain();
+  osc.type='sine'; osc.frequency.setValueAtTime(880,now);
+  gain.gain.setValueAtTime(0.0001,now); gain.gain.linearRampToValueAtTime(0.2,now+0.02); gain.gain.exponentialRampToValueAtTime(0.0001,now+0.35);
+  osc.connect(gain); gain.connect(ctx.destination); osc.start(now); osc.stop(now+0.4);
+}
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text); u.lang=LANG_META[currentLang].speech; u.rate=0.92; u.pitch=1.15;
+    const voices=window.speechSynthesis.getVoices();
+    const short = LANG_META[currentLang].speech.split('-')[0];
+    const vv=voices.find(v=>v.lang && v.lang.toLowerCase().startsWith(short));
+    if(vv) u.voice=vv;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function burstConfetti(n){
+  n = n||18;
+  const emojis=['🎉','⭐','💚','🐾','✨','🌟'];
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div'); el.className='confetti-piece'; el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left=Math.random()*100+'vw'; const dur=1.3+Math.random()*0.9;
+    el.style.animationDuration=dur+'s'; el.style.fontSize=(18+Math.random()*16)+'px';
+    document.body.appendChild(el); setTimeout(()=>el.remove(), dur*1000+100);
+  }
+}
+function createFloatingBg(){
+  const holder = document.createElement('div'); holder.id='bgFx';
+  document.body.insertBefore(holder, document.getElementById('stage'));
+  const emojis = ['🐾','⭐','🍃','🎈','✨','🦋'];
+  for(let i=0;i<10;i++){
+    const el = document.createElement('span'); el.className='bg-float'; el.textContent = emojis[i % emojis.length];
+    el.style.left = (Math.random()*94)+'vw';
+    el.style.animationDuration = (16+Math.random()*14)+'s';
+    el.style.animationDelay = (Math.random()*16)+'s';
+    el.style.fontSize = (20+Math.random()*18)+'px';
+    holder.appendChild(el);
+  }
+}
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function randInt(a,b){ return a+Math.floor(Math.random()*(b-a+1)); }
+function genCode(){ const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s=''; for(let i=0;i<4;i++) s+=chars[randInt(0,chars.length-1)]; return s; }
+
+/* ============================================================
+   QUESTION BUILDERS (language-aware)
+============================================================ */
+function nameOf(dict){ return dict[currentLang] || dict.en; }
+function buildFromCrafted(entry){
+  const [emoji, ansEmojis, byLang] = entry;
+  const L = byLang[currentLang] || byLang.en;
+  const opts = L.a.map((txt,i)=>({t:txt, e:ansEmojis[i], c:i===0}));
+  return {emoji, q:L.q, answers:shuffle(opts)};
+}
+function genCounting(){
+  const [emoji,names] = pick(COUNT_ITEMS);
+  const name = nameOf(names);
+  const n = randInt(2,6);
+  const row = new Array(n).fill(emoji).join(' ');
+  let wrongA = n-1<1 ? n+1 : n-1, wrongB=n+1; if(wrongB===wrongA) wrongB=n+2;
+  const opts = shuffle([n,wrongA,wrongB]).map(v=>({t:String(v), e:'🔢', c:v===n}));
+  return {emoji:row, q:COUNT_Q[currentLang].split('{name}').join(name), answers:opts, big:true};
+}
+function genAddition(){
+  const [emoji,names] = APPLE_ITEM[0];
+  const name = nameOf(names);
+  const a=randInt(1,4), b=randInt(1,4);
+  const row = new Array(a).fill(emoji).join(' ') + '  +  ' + new Array(b).fill(emoji).join(' ');
+  const sum=a+b;
+  let wrongA=sum-1<1?sum+1:sum-1, wrongB=sum+1; if(wrongB===wrongA) wrongB=sum+2;
+  const opts = shuffle([sum,wrongA,wrongB]).map(v=>({t:String(v), e:emoji, c:v===sum}));
+  return {emoji:row, q:ADD_Q[currentLang].split('{name}').join(name), answers:opts, big:true};
+}
+function genSizeCompare(){
+  let i=randInt(0,SIZE_RANK.length-1), j=randInt(0,SIZE_RANK.length-1);
+  while(j===i) j=randInt(0,SIZE_RANK.length-1);
+  const A=SIZE_RANK[i], B=SIZE_RANK[j];
+  const nameA = nameOf(A[2]), nameB = nameOf(B[2]);
+  const bigger = A[1]>B[1] ? A : B;
+  const opts = shuffle([
+    {t:nameA, e:A[0], c:A===bigger},
+    {t:nameB, e:B[0], c:B===bigger},
+    {t:SIZE_EQUAL[currentLang], e:'⚖️', c:false}
+  ]);
+  const qtext = SIZE_Q[currentLang].split('{A}').join(nameA).split('{B}').join(nameB);
+  return {emoji:`${A[0]} ${B[0]}`, q:qtext, answers:opts};
+}
+function buildTemplatedQuestion(sectionId, idx){
+  const items = MATCH_DATA[sectionId];
+  const correct = items[idx];
+  let distractIdx = shuffle(items.map((_,i)=>i).filter(i=>i!==idx)).slice(0,2);
+  const opts = shuffle([
+    {t:nameOf(correct[1]), e:correct[0], c:true},
+    {t:nameOf(items[distractIdx[0]][1]), e:items[distractIdx[0]][0], c:false},
+    {t:nameOf(items[distractIdx[1]][1]), e:items[distractIdx[1]][0], c:false}
+  ]);
+  return {emoji:correct[0], q:TEMPLATE_Q[sectionId][currentLang], answers:opts};
+}
+function makeQueue(sectionId){
+  let data = sectionId==='animals' ? ANIMALS_Q_DATA : sectionId==='planets' ? PLANETS_Q_DATA : sectionId==='numbers' ? NUMBERS_Q_DATA : null;
+  const itemIdxRange = MATCH_DATA[sectionId] ? MATCH_DATA[sectionId].map((_,i)=>i) : null;
+  return {
+    sectionId,
+    pool: data ? shuffle(data) : null, ptr:0,
+    itemPool: itemIdxRange ? shuffle(itemIdxRange) : null, itemPtr:0
+  };
+}
+function nextFromQueue(state, data){
+  if(state.ptr >= state.pool.length){ state.pool = shuffle(data); state.ptr = 0; }
+  return state.pool[state.ptr++];
+}
+function nextItemIdx(state){
+  if(state.itemPtr >= state.itemPool.length){ state.itemPool = shuffle(MATCH_DATA[state.sectionId].map((_,i)=>i)); state.itemPtr = 0; }
+  return state.itemPool[state.itemPtr++];
+}
+function nextQuestion(state){
+  const r = Math.random();
+  if(state.sectionId==='animals'){
+    if(r<0.15) return genSizeCompare();
+    if(r<0.30) return genCounting();
+    return buildFromCrafted(nextFromQueue(state, ANIMALS_Q_DATA));
+  }
+  if(state.sectionId==='planets'){ return buildFromCrafted(nextFromQueue(state, PLANETS_Q_DATA)); }
+  if(state.sectionId==='numbers'){
+    if(r<0.45) return genAddition();
+    if(r<0.8) return genCounting();
+    return buildFromCrafted(nextFromQueue(state, NUMBERS_Q_DATA));
+  }
+  return buildTemplatedQuestion(state.sectionId, nextItemIdx(state));
+}
+function buildGeneralQuestionSet(n){
+  const out = [];
+  const secIds = SECTIONS_DATA.map(s=>s.id);
+  for(let i=0;i<n;i++){
+    const id = secIds[i % secIds.length];
+    const tempState = makeQueue(id);
+    out.push(nextQuestion(tempState));
+  }
+  return shuffle(out);
+}
+
+/* ============================================================
+   INTRO / LOVE CARD
+============================================================ */
+function renderIntro(){
+  stage.innerHTML = `
+    <div class="screen">
+      ${langRow(false)}
+      <div class="love-card sparkle-ring">
+        <div class="critters wiggle">🐶 🐱 🐰 🦁</div>
+        <h1>${t('appTitle')}</h1>
+        <p>${t('introText')}</p>
+        <button class="big-btn" id="startBtn">${t('startBtn')}</button>
+      </div>
+    </div>`;
+  wireLangRow(renderIntro);
+  document.getElementById('startBtn').addEventListener('click', ()=>{
+    ensureAudio(); speak(t('introSpeak')); renderAuthGate();
+  });
+}
+
+/* ============================================================
+   AUTH GATE
+============================================================ */
+function renderAuthGate(){
+  const raw = profileStore.load();
+  profile = raw ? ensureProfileShape(raw) : null;
+  if(profile && profile.username && profile.pin){ renderLogin(); } else { renderRegister(); }
+}
+let pendingAvatar = AVATARS[0];
+let pendingPin = '';
+function renderRegister(){
+  pendingAvatar = AVATARS[0]; pendingPin = '';
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="card">
+        <div class="big-avatar wiggle" id="avPreview">${pendingAvatar}</div>
+        <h2 style="margin-bottom:6px;">${t('regTitle')}</h2>
+        <p style="color:var(--ink-soft);font-size:14px;margin-bottom:8px;">${t('regSub')}</p>
+        <div class="avatar-grid" id="avGrid">
+          ${AVATARS.map(a=>`<div class="avatar-opt ${a===pendingAvatar?'sel':''}" data-a="${a}">${a}</div>`).join('')}
+        </div>
+        <input class="input-big" id="regName" placeholder="${t('regNamePh')}" maxlength="12">
+        <p style="color:var(--ink-soft);font-size:14px;margin:12px 0 4px;">${t('regPinLabel')}</p>
+        <div class="pin-dots" id="pinDots">${'0000'.split('').map(()=>'<span class="pin-dot"></span>').join('')}</div>
+        <div class="keypad" id="keypad">
+          ${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-k="${n}">${n}</button>`).join('')}
+          <button data-k="clear">⌫</button><button data-k="0">0</button><button data-k="ok">✓</button>
+        </div>
+        <div class="badge" style="margin-top:14px;display:block;">${t('regNote')}</div>
+        <p id="regErr" style="color:var(--coral-dark);font-weight:700;min-height:20px;margin:8px 0 0;"></p>
+        <button class="big-btn green" id="regGo" style="margin-top:6px;">${t('regBtn')}</button>
+      </div>
+    </div>`;
+  document.getElementById('avGrid').querySelectorAll('.avatar-opt').forEach(el=>{
+    el.onclick = ()=>{ pendingAvatar = el.dataset.a; document.getElementById('avPreview').textContent = pendingAvatar;
+      document.querySelectorAll('.avatar-opt').forEach(x=>x.classList.remove('sel')); el.classList.add('sel'); };
+  });
+  wirePinKeypad(()=> pendingPin, v=>{ pendingPin=v; });
+  document.getElementById('regGo').onclick = ()=>{
+    const name = document.getElementById('regName').value.trim();
+    const err = document.getElementById('regErr');
+    if(name.length<2){ err.textContent = t('regErrName'); return; }
+    if(pendingPin.length<4){ err.textContent = t('regErrPin'); return; }
+    profile = ensureProfileShape({username:name, pin:pendingPin, avatar:pendingAvatar, createdAt:Date.now()});
+    profileStore.save(profile);
+    renderWelcome(true);
+  };
+}
+function renderLogin(){
+  pendingPin = '';
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="card">
+        <div class="big-avatar bob">${profile.avatar}</div>
+        <h2 style="margin-bottom:4px;">${t('loginHello',{name:profile.username})}</h2>
+        <p style="color:var(--ink-soft);font-size:14px;margin-bottom:8px;">${t('loginSub')}</p>
+        <div class="pin-dots" id="pinDots">${'0000'.split('').map(()=>'<span class="pin-dot"></span>').join('')}</div>
+        <div class="keypad" id="keypad">
+          ${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-k="${n}">${n}</button>`).join('')}
+          <button data-k="clear">⌫</button><button data-k="0">0</button><button data-k="ok">✓</button>
+        </div>
+        <p id="loginErr" style="color:var(--coral-dark);font-weight:700;min-height:20px;margin-top:10px;"></p>
+        <button class="ghost-btn" id="switchUser">${t('switchUser')}</button>
+      </div>
+    </div>`;
+  wirePinKeypad(()=> pendingPin, v=>{
+    pendingPin=v;
+    if(v.length===4){
+      if(v===profile.pin){ renderWelcome(false); }
+      else{ document.getElementById('loginErr').textContent=t('loginWrong'); pendingPin=''; renderPinDots(''); }
+    }
+  });
+  document.getElementById('switchUser').onclick = ()=>{ profile=null; renderRegister(); };
+}
+function renderPinDots(v){
+  const dots = document.querySelectorAll('#pinDots .pin-dot');
+  dots.forEach((d,i)=> d.classList.toggle('filled', i<v.length));
+}
+function wirePinKeypad(getVal, setVal){
+  document.getElementById('keypad').querySelectorAll('button').forEach(btn=>{
+    btn.onclick = ()=>{
+      let v = getVal();
+      const k = btn.dataset.k;
+      if(k==='clear') v='';
+      else if(k==='ok'){ /* no-op */ }
+      else if(v.length<4) v += k;
+      renderPinDots(v);
+      setVal(v);
+    };
+  });
+}
+function renderWelcome(isNew){
+  playApplause(); burstConfetti(26);
+  speak(isNew ? t('welcomeSpeakNew',{name:profile.username}) : t('welcomeSpeakBack',{name:profile.username}));
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="love-card sparkle-ring">
+        <div class="big-avatar bob">${profile.avatar}</div>
+        <h1>${t('welcomeTitleNew',{name:profile.username})}</h1>
+        <p>${isNew ? t('welcomeSubNew') : t('welcomeSubBack')}</p>
+        <button class="big-btn" id="toHubBtn">${t('enterAdventure')}</button>
+      </div>
+    </div>`;
+  document.getElementById('toHubBtn').onclick = renderHub;
+}
+
+/* ============================================================
+   HUB
+============================================================ */
+function topNav(){ return `<div class="topnav"><button class="ghost-btn" id="navBack">⬅</button><div class="title"></div><div style="width:60px"></div></div>`; }
+function wireBack(fn){ const b=document.getElementById('navBack'); if(b) b.onclick=fn; }
+
+function renderHub(){
+  const prem = store.premium;
+  const greetAvatar = profile ? profile.avatar : '🐾';
+  const greetName = profile ? profile.username : '';
+  stage.innerHTML = `
+    <div class="screen top">
+      ${langRow(true)}
+      <div class="hub-header">
+        <div class="hub-title">${greetAvatar} ${t('hubHello')}${greetName?', '+greetName:''}!</div>
+        <div class="badge ${prem?'premium-badge':''}">${prem?t('premiumOn'):t('premiumOff')}</div>
+      </div>
+      ${!prem?`<div class="premium-banner"><span>${t('premiumBannerText')}</span><button class="big-btn small" id="goPremium">${t('premiumBtn')}</button></div>`:''}
+      <div class="mode-grid">
+        <div class="mode-tile" id="tileSections">
+          <div class="ic">📚</div>
+          <div class="tx"><h3>${t('tileSectionsTitle')}</h3><p>${t('tileSectionsDesc')}</p></div>
+        </div>
+        <div class="mode-tile" id="tileMatch">
+          <div class="ic">🧩</div>
+          <div class="tx"><h3>${t('tileMatchTitle')}</h3><p>${t('tileMatchDesc')}</p></div>
+        </div>
+        <div class="mode-tile" id="tileComp" style="position:relative;">
+          ${!prem?'<span style="position:absolute;top:10px;right:14px;font-size:18px;">🔒</span>':''}
+          <div class="ic">🏆</div>
+          <div class="tx"><h3>${t('tileCompTitle')}</h3><p>${t('tileCompDesc')}</p></div>
+        </div>
+        <div class="mode-tile" id="tileBadges">
+          <div class="ic">🎖</div>
+          <div class="tx"><h3>${t('tileBadgesTitle')}</h3><p>${t('tileBadgesDesc',{n:profile?(profile.badges||[]).length:0,m:BADGES.length})}</p></div>
+        </div>
+      </div>
+    </div>`;
+  wireLangRow(renderHub);
+  document.getElementById('tileSections').onclick = renderSectionGrid;
+  document.getElementById('tileMatch').onclick = renderMatchSectionPicker;
+  document.getElementById('tileComp').onclick = ()=>{ if(!store.premium){ renderPremium(renderHub); } else { renderCompHome(); } };
+  document.getElementById('tileBadges').onclick = renderBadges;
+  const pb = document.getElementById('goPremium'); if(pb) pb.onclick = renderPremium;
+}
+function renderBadges(){
+  stage.innerHTML = `
+    <div class="screen top">
+      ${topNav()}
+      <h2 style="margin-bottom:14px;">${t('badgesTitle')}</h2>
+      <div class="badge-grid">
+        ${BADGES.map(b=>{
+          const unlocked = profile && (profile.badges||[]).includes(b.id);
+          return `<div class="badge-tile ${unlocked?'':'locked'}"><span class="bic">${b.icon}</span><span class="bnm">${nameOf(b.name)}</span></div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  wireBack(renderHub);
+}
+
+/* ============================================================
+   PREMIUM
+============================================================ */
+function renderParentalGate(onPass, onCancel){
+  const a = randInt(4,9), b = randInt(3,8);
+  const correct = a+b;
+  let wrongA = correct+randInt(1,3), wrongB = correct-randInt(1,3);
+  const opts = shuffle([correct, wrongA, wrongB]);
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="card">
+        <div style="font-size:40px;margin-bottom:8px;">🔒</div>
+        <h2 style="margin-bottom:10px;">${t('gateTitle')}</h2>
+        <p style="color:var(--ink-soft);margin-bottom:16px;">${t('gateBody')}</p>
+        <div class="question-text" style="font-size:26px;margin-bottom:16px;">${a} + ${b} = ?</div>
+        <div class="answers" style="max-width:260px;margin:0 auto;">
+          ${opts.map(v=>`<button class="answer-btn" data-v="${v}" style="justify-content:center;"><span>${v}</span></button>`).join('')}
+        </div>
+        <p id="gateErr" style="color:var(--coral-dark);font-weight:700;min-height:20px;margin-top:12px;"></p>
+        <button class="ghost-btn" id="gateCancel">${t('gateCancel')}</button>
+      </div>
+    </div>`;
+  stage.querySelectorAll('.answer-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      if(parseInt(btn.dataset.v,10)===correct){ onPass(); }
+      else{ document.getElementById('gateErr').textContent = t('gateWrong'); }
+    };
+  });
+  document.getElementById('gateCancel').onclick = onCancel;
+}
+
+function renderPremium(returnFn){
+  returnFn = returnFn || renderHub;
+  const prem = store.premium;
+  stage.innerHTML = `
+    <div class="screen top">
+      ${topNav()}
+      <div class="card">
+        <div style="font-size:48px;margin-bottom:8px;">👑</div>
+        <h2 style="color:#8A5A00;margin-bottom:10px;">${t('premiumScreenTitle')}</h2>
+        <p style="color:var(--ink-soft);line-height:1.6;margin-bottom:16px;">${t('premiumScreenBody')}</p>
+        <p id="premMsg" style="color:var(--coral-dark);font-weight:700;min-height:20px;"></p>
+        ${prem
+          ? `<div class="badge premium-badge" style="display:block;margin-bottom:10px;">${t('premiumOn')} ✅</div>`
+          : `<button class="big-btn purple" id="buyPrem">${t('premiumOffBtn')}</button>`}
+        ${(!STORE_SAFE_MODE && !prem) ? `<div style="margin-top:14px;"><button class="ghost-btn" id="devTogglePrem">🧪 Demo: Premium'u Aç (yalnızca test)</button></div>` : ''}
+      </div>
+    </div>`;
+  wireBack(returnFn);
+  const buyBtn = document.getElementById('buyPrem');
+  if(buyBtn) buyBtn.onclick = ()=>{
+    renderParentalGate(
+      ()=>{
+        renderPremium(returnFn);
+        setTimeout(()=>{
+          const b2 = document.getElementById('buyPrem');
+          if(!b2) return;
+          b2.disabled = true;
+          purchasePremium((result)=>{
+            if(result===true){ playApplause(); burstConfetti(24); renderPremium(returnFn); }
+            else if(result===false){ document.getElementById('premMsg').textContent = 'Satın alma tamamlanamadı, tekrar dene.'; b2.disabled=false; }
+            else{ document.getElementById('premMsg').textContent = 'Bu satın alma Play Store sürümünde etkinleşir.'; b2.disabled=false; }
+          });
+        }, 50);
+      },
+      ()=> renderPremium(returnFn)
+    );
+  };
+  const devBtn = document.getElementById('devTogglePrem');
+  if(devBtn) devBtn.onclick = ()=>{ store.premium = true; playApplause(); burstConfetti(24); renderPremium(returnFn); };
+}
+
+/* ============================================================
+   SECTIONS GRID
+============================================================ */
+function renderSectionGrid(){
+  stage.innerHTML = `
+    <div class="screen top">
+      ${topNav()}
+      <h2 style="margin-bottom:14px;">${t('sectionPickTitle')}</h2>
+      <div class="section-grid" id="secGrid"></div>
+    </div>`;
+  wireBack(renderHub);
+  const grid = document.getElementById('secGrid');
+  grid.innerHTML = SECTIONS_DATA.map(s=>{
+    const locked = !FREE_SECTIONS.includes(s.id) && !store.premium;
+    return `<div class="section-tile" data-id="${s.id}" data-locked="${locked?1:0}" style="background:${s.color};position:relative;">
+      ${locked?'<span style="position:absolute;top:6px;right:8px;font-size:16px;">🔒</span>':''}
+      <span class="ic">${s.icon}</span><span class="nm">${nameOf(s.name)}</span>
+    </div>`;
+  }).join('');
+  grid.querySelectorAll('.section-tile').forEach(el=> el.addEventListener('click', ()=>{
+    if(el.dataset.locked==='1'){ renderPremium(renderSectionGrid); return; }
+    startQuizSession(el.dataset.id);
+  }));
+}
+
+/* ============================================================
+   QUIZ SESSION
+============================================================ */
+function startQuizSession(sectionId){
+  quiz = { sectionId, queue: makeQueue(sectionId), answered:0, correct:0, current:null, locked:false };
+  renderQuizQuestion();
+}
+function renderQuizQuestion(){
+  quiz.locked = false;
+  quiz.current = nextQuestion(quiz.queue);
+  const sec = secById(quiz.sectionId);
+  const item = quiz.current;
+  const answersHtml = item.answers.map((a,idx)=>`
+    <button class="answer-btn" data-idx="${idx}"><span class="oe">${a.e}</span><span>${a.t}</span></button>`).join('');
+  stage.innerHTML = `
+    <div class="screen top">
+      ${topNav()}
+      <div class="topbar"><span class="badge">${sec.icon} ${nameOf(sec.name)}</span><span class="badge">✅ ${quiz.correct} / ${quiz.answered}</span></div>
+      <div class="question-card">
+        <div class="animal-emoji" style="${item.big?'font-size:44px;letter-spacing:6px;':''}">${item.emoji}</div>
+        <div class="question-text">${item.q}</div>
+        <button class="speak-btn" id="speakBtn">${t('speakAgain')}</button>
+        <div class="answers">${answersHtml}</div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+    </div>`;
+  wireBack(()=>{ quiz=null; renderSectionGrid(); });
+  document.getElementById('speakBtn').addEventListener('click', ()=> speak(item.q));
+  stage.querySelectorAll('.answer-btn').forEach(btn=> btn.addEventListener('click', onQuizAnswer));
+  speak(item.q);
+}
+function onQuizAnswer(e){
+  if(quiz.locked) return; quiz.locked = true;
+  const idx = parseInt(e.currentTarget.dataset.idx,10);
+  const item = quiz.current;
+  const chosen = item.answers[idx];
+  const feedback = document.getElementById('feedback');
+  stage.querySelectorAll('.answer-btn').forEach((b,i)=>{
+    if(item.answers[i].c) b.classList.add('correct');
+    if(i===idx && !chosen.c) b.classList.add('wrong');
+    if(i!==idx) b.classList.add('dim');
+  });
+  quiz.answered++;
+  if(chosen.c){
+    quiz.correct++;
+    if(profile){ ensureProfileShape(profile); profile.stats.correct++; profile.stats.sections[quiz.sectionId]=true; checkBadges(); }
+    playApplause(); burstConfetti();
+    const msg = nameOf(pick(PRAISE)); feedback.textContent = msg; feedback.className='feedback show good'; speak(msg);
+  }else{
+    playGentle();
+    const correctAns = item.answers.find(a=>a.c);
+    const msg = nameOf(pick(GENTLE))+' '+correctAns.t;
+    feedback.textContent = msg; feedback.className='feedback show soft';
+    speak(msg);
+  }
+  setTimeout(()=>{
+    if(quiz.answered>0 && quiz.answered%10===0){ renderAdBreak(()=> renderQuizQuestion(), 'quiz'); }
+    else{ renderQuizQuestion(); }
+    showBadgeToastQueue();
+  }, 2000);
+}
+
+/* ============================================================
+   ADS HOOK (no-op unless wrapped natively with Capacitor + AdMob plugin —
+   see PLAY_STORE_REHBERI.md "Reklamlar" section for setup steps)
+============================================================ */
+function maybeShowInterstitial(onDone){
+  try{
+    if(window.Capacitor && window.AdMob && typeof window.AdMob.showInterstitial === 'function'){
+      window.AdMob.showInterstitial().then(onDone).catch(onDone);
+      return;
+    }
+  }catch(e){}
+  onDone(); // browser / Claude demo: no native ad SDK present, just continue
+}
+
+/* ============================================================
+   AD / LEARNING BREAK
+============================================================ */
+function renderAdBreak(onDone, context){
+  maybeShowInterstitial(()=> renderLearningBreakCard(onDone));
+}
+function renderLearningBreakCard(onDone){
+  const [emoji, texts] = pick(FACTS);
+  const text = nameOf(texts);
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="ad-card">
+        <div class="ad-chip">${t('adChip')}</div>
+        <div class="fact-emoji">${emoji}</div>
+        <div class="fact-text"><b>${t('adKnow')}</b><br>${text}</div>
+        <div class="ad-progress"><div class="ad-progress-bar" id="adBar"></div></div>
+        <div class="btn-stack">
+          <button class="big-btn green" id="adContinue" disabled>${t('adContinueCd',{s:3})}</button>
+          <button class="ghost-btn" id="adPremium">${t('adPremiumBtn')}</button>
+        </div>
+      </div>
+    </div>`;
+  speak(t('adKnow')+' '+text);
+  const bar = document.getElementById('adBar');
+  const btn = document.getElementById('adContinue');
+  setTimeout(()=>{ bar.style.width='100%'; }, 50);
+  let secs = 3;
+  const cd = setInterval(()=>{
+    secs--;
+    if(secs<=0){ clearInterval(cd); btn.disabled=false; btn.textContent=t('adContinueGo'); }
+    else{ btn.textContent = t('adContinueCd',{s:secs}); }
+  }, 1000);
+  btn.onclick = ()=>{ if(!btn.disabled) onDone(); };
+  document.getElementById('adPremium').onclick = ()=>{
+    const prevOnDone = onDone; stage.innerHTML = ''; renderPremiumThenReturn(prevOnDone);
+  };
+}
+function renderPremiumThenReturn(onDone){
+  renderPremium(onDone);
+}
+
+/* ============================================================
+   MATCHING GAME
+============================================================ */
+function renderMatchSectionPicker(){
+  stage.innerHTML = `
+    <div class="screen top">
+      ${topNav()}
+      <h2 style="margin-bottom:14px;">${t('matchPickTitle')}</h2>
+      <div class="section-grid" id="secGrid"></div>
+    </div>`;
+  wireBack(renderHub);
+  const grid = document.getElementById('secGrid');
+  grid.innerHTML = SECTIONS_DATA.map(s=>{
+    const locked = !FREE_SECTIONS.includes(s.id) && !store.premium;
+    return `<div class="section-tile" data-id="${s.id}" data-locked="${locked?1:0}" style="background:${s.color};position:relative;">
+      ${locked?'<span style="position:absolute;top:6px;right:8px;font-size:16px;">🔒</span>':''}
+      <span class="ic">${s.icon}</span><span class="nm">${nameOf(s.name)}</span>
+    </div>`;
+  }).join('');
+  grid.querySelectorAll('.section-tile').forEach(el=> el.addEventListener('click', ()=>{
+    if(el.dataset.locked==='1'){ renderPremium(renderMatchSectionPicker); return; }
+    startMatchGame(el.dataset.id);
+  }));
+}
+function startMatchGame(sectionId){
+  const pairCount = store.premium ? 8 : 6;
+  const items = shuffle(getMatchItems(sectionId, currentLang)).slice(0,pairCount);
+  let cards = [];
+  items.forEach((it,i)=>{ cards.push({pairId:i, emoji:it[0], name:it[1]}); cards.push({pairId:i, emoji:it[0], name:it[1]}); });
+  cards = shuffle(cards).map((c,i)=>({...c, id:i, flipped:false, matched:false}));
+  match = { sectionId, cards, flippedIds:[], moves:0, matchedCount:0, total:pairCount, locked:false };
+  renderMatchBoard();
+}
+function renderMatchBoard(){
+  const sec = secById(match.sectionId);
+  stage.innerHTML = `
+    <div class="screen top">
+      ${topNav()}
+      <h2 style="margin-bottom:8px;">${sec.icon} ${nameOf(sec.name)}</h2>
+      <div class="match-stats">
+        <div class="stat">${t('matchMoves')} <span id="movesTx">${match.moves}</span></div>
+        <div class="stat">${t('matchMatched')} <span id="matchedTx">${match.matchedCount}/${match.total}</span></div>
+      </div>
+      <div class="match-grid" id="matchGrid"></div>
+    </div>`;
+  wireBack(()=>{ match=null; renderMatchSectionPicker(); });
+  const grid = document.getElementById('matchGrid');
+  grid.innerHTML = match.cards.map(c=>`
+    <div class="match-card ${c.matched?'matched':(c.flipped?'flipped':'')}" data-id="${c.id}">
+      ${(c.flipped||c.matched) ? c.emoji : '❓'}
+    </div>`).join('');
+  grid.querySelectorAll('.match-card').forEach(el=> el.addEventListener('click', onMatchCardClick));
+}
+function onMatchCardClick(e){
+  if(match.locked) return;
+  const id = parseInt(e.currentTarget.dataset.id,10);
+  const card = match.cards.find(c=>c.id===id);
+  if(!card || card.flipped || card.matched) return;
+  card.flipped = true; match.flippedIds.push(id);
+  renderMatchBoard();
+  if(match.flippedIds.length===2){
+    match.locked = true; match.moves++;
+    const [a,b] = match.flippedIds.map(fid=> match.cards.find(c=>c.id===fid));
+    if(a.pairId===b.pairId){
+      setTimeout(()=>{
+        a.matched=true; b.matched=true; match.matchedCount++;
+        match.flippedIds=[]; match.locked=false;
+        playDing(); burstConfetti(8);
+        showToast(t('matchToast',{emoji:a.emoji, name:a.name}));
+        if(match.matchedCount===match.total){ setTimeout(renderMatchEnd, 700); } else { renderMatchBoard(); }
+      }, 500);
+    }else{
+      setTimeout(()=>{ a.flipped=false; b.flipped=false; match.flippedIds=[]; match.locked=false; renderMatchBoard(); }, 900);
+    }
+  }
+}
+function showToast(text){
+  const el=document.createElement('div'); el.className='match-toast'; el.textContent=text;
+  document.body.appendChild(el); setTimeout(()=>el.remove(),1400);
+}
+function renderMatchEnd(){
+  if(profile){ ensureProfileShape(profile); profile.stats.matches = (profile.stats.matches||0)+1; checkBadges(); }
+  maybeShowInterstitial(()=> renderMatchEndScreen());
+}
+function renderMatchEndScreen(){
+  playApplause(); burstConfetti(24);
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="end-card">
+        <div class="big-emoji">🏆</div>
+        <h2>${t('matchEndTitle')}</h2>
+        <div class="score-line">${t('matchEndMoves')} <b>${match.moves}</b></div>
+        <div class="love-msg">${t('matchEndMsg')}</div>
+        <div class="btn-stack">
+          <button class="big-btn green" id="again">${t('playAgain')}</button>
+          <button class="ghost-btn" id="toHub">${t('toMainMenu')}</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('again').onclick = ()=> startMatchGame(match.sectionId);
+  document.getElementById('toHub').onclick = renderHub;
+}
+
+/* ============================================================
+   COMPETITION
+============================================================ */
+const RUN_TIME = 60, RUN_QCOUNT = 10;
+
+function renderCompHome(){
+  stage.innerHTML = `
+    <div class="screen top">
+      ${topNav()}
+      <h2 style="margin-bottom:14px;">${t('compTitle')}</h2>
+      <div class="mode-grid">
+        <div class="mode-tile" id="localBtn">
+          <div class="ic">📱</div>
+          <div class="tx"><h3>${t('compLocalTitle')}</h3><p>${t('compLocalDesc')}</p></div>
+        </div>
+        ${dbAvailable?`<div class="mode-tile" id="onlineBtn">
+          <div class="ic">🌐</div>
+          <div class="tx"><h3>${t('compOnlineTitle')}</h3><p>${t('compOnlineDescOn')}</p></div>
+        </div>`:''}
+      </div>
+      <p class="badge" style="margin-top:16px;max-width:400px;line-height:1.6;">${t('compNote',{t:RUN_TIME})}</p>
+    </div>`;
+  wireBack(renderHub);
+  document.getElementById('localBtn').onclick = renderCompLocalSetup;
+  const onlineBtn = document.getElementById('onlineBtn');
+  if(onlineBtn) onlineBtn.onclick = renderCompOnlineHome;
+}
+function renderCompLocalSetup(){
+  stage.innerHTML = `
+    <div class="screen">
+      ${topNav()}
+      <div class="card">
+        <h2 style="margin-bottom:14px;">${t('compLocalTitle')}</h2>
+        <input class="input-big" id="p1name" placeholder="${t('p1NamePh')}" maxlength="12">
+        <input class="input-big" id="p2name" placeholder="${t('p2NamePh')}" maxlength="12">
+        <button class="big-btn green" id="beginLocal" style="margin-top:10px;">${t('beginBtn')}</button>
+      </div>
+    </div>`;
+  wireBack(renderCompHome);
+  document.getElementById('beginLocal').onclick = ()=>{
+    const n1 = document.getElementById('p1name').value.trim() || 'P1';
+    const n2 = document.getElementById('p2name').value.trim() || 'P2';
+    const questions = buildGeneralQuestionSet(RUN_QCOUNT);
+    comp = { mode:'local', questions, p1:{name:n1,score:0,index:0}, p2:{name:n2,score:0,index:0}, turn:'p1' };
+    renderCompHandoff();
+  };
+}
+function renderCompHandoff(){
+  const p = comp[comp.turn];
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="handoff-card">
+        <div class="ic">🤝</div>
+        <h2>${t('handoffTitle',{name:p.name})}</h2>
+        <p style="color:var(--ink-soft);margin:10px 0 20px;">${t('handoffBody',{name:p.name,t:RUN_TIME})}</p>
+        <button class="big-btn blue" id="ready">${t('readyBtn')}</button>
+      </div>
+    </div>`;
+  document.getElementById('ready').onclick = ()=>{ comp.timeLeft = RUN_TIME; comp.running = true; runCompQuestion(); };
+}
+function runCompQuestion(){
+  const p = comp[comp.turn];
+  if(p.index >= comp.questions.length || comp.timeLeft<=0){ return endCompTurn(); }
+  const item = comp.questions[p.index];
+  stage.innerHTML = `
+    <div class="screen">
+      <div style="text-align:center;width:100%;"><div class="timer-ring" id="timerRing">⏱ ${comp.timeLeft}s</div></div>
+      <div class="question-card">
+        <div class="badge" style="margin-bottom:10px;">${p.name} — ${p.index+1}/${comp.questions.length}</div>
+        <div class="animal-emoji">${item.emoji}</div>
+        <div class="question-text">${item.q}</div>
+        <div class="answers">${item.answers.map((a,idx)=>`<button class="answer-btn" data-idx="${idx}"><span class="oe">${a.e}</span><span>${a.t}</span></button>`).join('')}</div>
+      </div>
+      ${(!STORE_SAFE_MODE && !store.premium)?`<button class="ghost-btn" id="watchAd" style="margin-top:14px;">${t('watchAdBtn')}</button>`:''}
+    </div>`;
+  stage.querySelectorAll('.answer-btn').forEach(btn=> btn.addEventListener('click', (e)=>{
+    clearInterval(comp.timerHandle);
+    const idx = parseInt(e.currentTarget.dataset.idx,10);
+    if(item.answers[idx].c){ p.score++; playApplause(); burstConfetti(10); } else { playGentle(); }
+    p.index++;
+    setTimeout(runCompQuestion, 500);
+  }));
+  const adBtn = document.getElementById('watchAd');
+  if(adBtn) adBtn.onclick = ()=>{ clearInterval(comp.timerHandle); renderAdBreak(()=>{ comp.timeLeft += 15; runCompQuestion(); }, 'comp'); };
+  clearInterval(comp.timerHandle);
+  comp.timerHandle = setInterval(()=>{
+    comp.timeLeft--;
+    const ring = document.getElementById('timerRing');
+    if(ring){ ring.textContent = '⏱ '+comp.timeLeft+'s'; if(comp.timeLeft<=10) ring.classList.add('low'); }
+    if(comp.timeLeft<=0){ clearInterval(comp.timerHandle); endCompTurn(); }
+  }, 1000);
+}
+function endCompTurn(){
+  clearInterval(comp.timerHandle);
+  if(comp.turn==='p1'){ comp.turn='p2'; renderCompHandoff(); } else { renderCompLocalResults(); }
+}
+function renderCompLocalResults(){
+  if(profile){ ensureProfileShape(profile); profile.stats.comps = (profile.stats.comps||0)+1; checkBadges(); }
+  maybeShowInterstitial(()=> renderCompLocalResultsScreen());
+}
+function renderCompLocalResultsScreen(){
+  playApplause(); burstConfetti(20);
+  const p1=comp.p1, p2=comp.p2;
+  let msg = t('compTie');
+  if(p1.score>p2.score) msg = t('compLead',{name:p1.name});
+  else if(p2.score>p1.score) msg = t('compLead',{name:p2.name});
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="end-card">
+        <div class="big-emoji">🏆</div>
+        <h2>${t('compDoneTitle')}</h2>
+        <div class="vs-row">
+          <div class="vs-player"><div class="nm">${p1.name}</div><div class="sc">${p1.score}</div></div>
+          <div class="vs-player"><div class="nm">${p2.name}</div><div class="sc">${p2.score}</div></div>
+        </div>
+        <div class="love-msg">${msg}<br>${t('compLoveMsg')}</div>
+        <div class="btn-stack">
+          <button class="big-btn green" id="again">${t('playAgain')}</button>
+          <button class="ghost-btn" id="toHub">${t('toMainMenu')}</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('again').onclick = renderCompLocalSetup;
+  document.getElementById('toHub').onclick = renderHub;
+}
+
+/* ---- ONLINE ---- */
+function renderCompOnlineHome(){
+  stage.innerHTML = `
+    <div class="screen">
+      ${topNav()}
+      <div class="card">
+        <h2 style="margin-bottom:10px;">${t('onlineTitle')}</h2>
+        <p style="color:var(--ink-soft);font-size:14px;margin-bottom:16px;">${t('onlineNote')}</p>
+        <input class="input-big" id="myName" placeholder="${t('myNamePh')}" maxlength="12">
+        <div class="btn-stack" style="margin-top:14px;">
+          <button class="big-btn blue" id="createRoom">${t('createRoomBtn')}</button>
+        </div>
+        <div style="margin:18px 0 8px;color:var(--ink-soft);font-weight:700;">${t('orText')}</div>
+        <input class="input-big" id="joinCode" placeholder="${t('codePh')}" maxlength="4" style="text-transform:uppercase;">
+        <button class="big-btn purple" id="joinRoom" style="margin-top:8px;">${t('joinRoomBtn')}</button>
+      </div>
+    </div>`;
+  wireBack(renderCompHome);
+  document.getElementById('createRoom').onclick = async ()=>{
+    const name = document.getElementById('myName').value.trim() || 'P1';
+    await onlineCreateRoom(name);
+  };
+  document.getElementById('joinRoom').onclick = async ()=>{
+    const name = document.getElementById('myName').value.trim() || 'P2';
+    const code = document.getElementById('joinCode').value.trim().toUpperCase();
+    if(code.length!==4){ alert(t('codeAlert')); return; }
+    await onlineJoinRoom(code, name);
+  };
+}
+async function onlineCreateRoom(name){
+  try{
+    const code = genCode();
+    const questions = buildGeneralQuestionSet(RUN_QCOUNT);
+    const ref = dbCap.doc('rooms/'+code);
+    await ref.set({ code, createdAt: Date.now(), questions,
+      p1:{name, score:0, index:0, done:false, timeLeft:RUN_TIME}, p2:null });
+    comp = { mode:'online', code, slot:'p1', ref, questions, name };
+    renderCompOnlineWaiting();
+  }catch(e){ alert(t('roomFailAlert')); renderCompOnlineHome(); }
+}
+async function onlineJoinRoom(code, name){
+  try{
+    const ref = dbCap.doc('rooms/'+code);
+    const snap = await ref.get();
+    if(!snap.exists){ alert(t('noRoomAlert')); return; }
+    const data = snap.data();
+    if(data.p2 && data.p2.name){ alert(t('roomFullAlert')); return; }
+    await ref.update({ p2:{name, score:0, index:0, done:false, timeLeft:RUN_TIME} });
+    comp = { mode:'online', code, slot:'p2', ref, questions:data.questions, name };
+    renderCompOnlineReady();
+  }catch(e){ alert(t('joinFailAlert')); renderCompOnlineHome(); }
+}
+function renderCompOnlineWaiting(){
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="handoff-card">
+        <div class="ic">🌐</div>
+        <h2>${t('roomCreatedTitle')}</h2>
+        <p style="color:var(--ink-soft);">${t('shareCode')}</p>
+        <div class="room-code">${comp.code}</div>
+        <button class="big-btn green" id="playNow">${t('playNowBtn')}</button>
+        <p style="color:var(--ink-soft);font-size:13px;margin-top:10px;">${t('playNowNote')}</p>
+      </div>
+    </div>`;
+  document.getElementById('playNow').onclick = ()=> runOnlineTurn();
+}
+function renderCompOnlineReady(){
+  stage.innerHTML = `
+    <div class="screen">
+      <div class="handoff-card">
+        <div class="ic">🌐</div>
+        <h2>${t('joinedTitle')}</h2>
+        <p style="color:var(--ink-soft);">${t('codeLabel')} <b>${comp.code}</b></p>
+        <button class="big-btn green" id="playNow">${t('playNowBtn')}</button>
+      </div>
+    </div>`;
+  document.getElementById('playNow').onclick = ()=> runOnlineTurn();
+}
+function runOnlineTurn(){ comp.index=0; comp.score=0; comp.timeLeft=RUN_TIME; onlineRunQuestion(); }
+function onlineRunQuestion(){
+  if(comp.index >= comp.questions.length || comp.timeLeft<=0){ return finishOnlineTurn(); }
+  const item = comp.questions[comp.index];
+  stage.innerHTML = `
+    <div class="screen">
+      <div style="text-align:center;width:100%;"><div class="timer-ring" id="timerRing">⏱ ${comp.timeLeft}s</div></div>
+      <div class="question-card">
+        <div class="badge" style="margin-bottom:10px;">${comp.name} — ${comp.index+1}/${comp.questions.length}</div>
+        <div class="animal-emoji">${item.emoji}</div>
+        <div class="question-text">${item.q}</div>
+        <div class="answers">${item.answers.map((a,idx)=>`<button class="answer-btn" data-idx="${idx}"><span class="oe">${a.e}</span><span>${a.t}</span></button>`).join('')}</div>
+      </div>
+      ${(!STORE_SAFE_MODE && !store.premium)?`<button class="ghost-btn" id="watchAd" style="margin-top:14px;">${t('watchAdBtn')}</button>`:''}
+    </div>`;
+  stage.querySelectorAll('.answer-btn').forEach(btn=> btn.addEventListener('click',(e)=>{
+    clearInterval(comp.timerHandle);
+    const idx=parseInt(e.currentTarget.dataset.idx,10);
+    if(item.answers[idx].c){ comp.score++; playApplause(); burstConfetti(10); } else { playGentle(); }
+    comp.index++;
+    setTimeout(onlineRunQuestion, 500);
+  }));
+  const adBtn = document.getElementById('watchAd');
+  if(adBtn) adBtn.onclick = ()=>{ clearInterval(comp.timerHandle); renderAdBreak(()=>{ comp.timeLeft+=15; onlineRunQuestion(); },'comp'); };
+  clearInterval(comp.timerHandle);
+  comp.timerHandle = setInterval(()=>{
+    comp.timeLeft--;
+    const ring=document.getElementById('timerRing');
+    if(ring){ ring.textContent='⏱ '+comp.timeLeft+'s'; if(comp.timeLeft<=10) ring.classList.add('low'); }
+    if(comp.timeLeft<=0){ clearInterval(comp.timerHandle); finishOnlineTurn(); }
+  },1000);
+}
+async function finishOnlineTurn(){
+  clearInterval(comp.timerHandle);
+  if(profile){ ensureProfileShape(profile); profile.stats.comps = (profile.stats.comps||0)+1; checkBadges(); }
+  try{ await comp.ref.update({ [comp.slot]: { name:comp.name, score:comp.score, index:comp.index, done:true, timeLeft:comp.timeLeft } }); }catch(e){}
+  renderOnlineResults();
+}
+async function renderOnlineResults(){
+  maybeShowInterstitial(async ()=>{
+    playApplause(); burstConfetti(20);
+    let oppData = null;
+    try{ const snap = await comp.ref.get(); const data = snap.data(); oppData = comp.slot==='p1' ? data.p2 : data.p1; }catch(e){}
+    const oppReady = oppData && oppData.done;
+    stage.innerHTML = `
+      <div class="screen">
+        <div class="end-card">
+          <div class="big-emoji">🏆</div>
+          <h2>${t('yourResultTitle')}</h2>
+          <div class="score-line">${t('correctCount')} <b>${comp.score} / ${comp.questions.length}</b></div>
+          ${oppReady
+            ? `<div class="vs-row"><div class="vs-player"><div class="nm">${comp.name}</div><div class="sc">${comp.score}</div></div><div class="vs-player"><div class="nm">${oppData.name}</div><div class="sc">${oppData.score}</div></div></div>`
+            : `<div class="badge" style="margin-bottom:16px;">${t('waitingOpp')} <b>${comp.code}</b></div>`}
+          <div class="love-msg">${t('resultLoveMsg')}</div>
+          <div class="btn-stack">
+            ${!oppReady?`<button class="ghost-btn" id="refresh">${t('refreshBtn')}</button>`:''}
+            <button class="ghost-btn" id="toHub">${t('toMainMenu')}</button>
+          </div>
+        </div>
+      </div>`;
+    const rb = document.getElementById('refresh'); if(rb) rb.onclick = renderOnlineResults;
+    document.getElementById('toHub').onclick = renderHub;
+  });
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+document.documentElement.lang = currentLang;
+document.documentElement.dir = LANG_META[currentLang].dir;
+if('speechSynthesis' in window){ window.speechSynthesis.onvoiceschanged = ()=>{}; }
+createFloatingBg();
+renderIntro();
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
